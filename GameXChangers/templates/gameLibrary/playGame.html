@@ -8,7 +8,6 @@
         <div class="media-body" style="padding-left: 10px;">
             <h5 class="mt-0">{{ game.name }}</h5>
             <p>{{ game.description }}</p>
-            <p>{{ users_game.progress }}</p>
             <div class="media-body" style="padding-left: 10px; padding-top: 20px;">
                 <h5 class="mt-0">Highscores</h5>
                 {% if owned_game_objects %}
@@ -33,42 +32,35 @@
     var myFrame = document.getElementById('myFrame').contentWindow;
     window.onmessage = function (event) {
         var message = event.data;
-        
+
         if (message.messageType == "SETTING") {
             $("myFrame").width = message.options.width;
             $("myFrame").height = message.options.height;
 
         } else if (message.messageType == "SCORE") {
             $.ajax({
-                type:'POST',
+                type: 'POST',
                 url: '/gameLibrary/playGame/{{ game.id }}',
                 data: {
                     'csrfmiddlewaretoken': "{{  csrf_token  }}",
                     score: message.score
                 },
-                success: function() { }
+                success: function () { }
             });
 
         } else if (message.messageType == "SAVE") {
             $.ajax({
-                type:'POST',
+                type: 'POST',
                 url: '/gameLibrary/playGame/{{ game.id }}',
                 data: {
                     'csrfmiddlewaretoken': "{{  csrf_token  }}",
                     state: JSON.stringify(message.gameState)
                 },
-                success: function() { }
+                success: function () { }
             });
 
         } else if (message.messageType == "LOAD_REQUEST") {
-            console.log(message)
 
-            var loadMessage = {
-                "messageType": "LOAD",
-                "gameState": {
-                    "playerItems": [],
-                    "score": 11
-            }}
 
             $.ajax({
                 type: 'POST',
@@ -77,13 +69,21 @@
                     'csrfmiddlewaretoken': "{{  csrf_token  }}",
                     getProgress: ""
                 },
-                success: function(result) {
-                    console.log(result)
+                success: function (result) {
+                    var res = JSON.parse(JSON.parse(result));
+
+                    var loadMessage = {
+                        "messageType": "LOAD",
+                        "gameState": {
+                            "playerItems": res.playerItems,
+                            "score": res.score
+                        }
+                    };
+
+                    myFrame.postMessage(loadMessage, "*");
                 }
             })
-            };
-
-            myFrame.postMessage(loadMessage, "*");
+        };
 
     };
 

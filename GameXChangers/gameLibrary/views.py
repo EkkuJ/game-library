@@ -26,7 +26,7 @@ def myGames(request):
 
 # Show gaming view for specific game
 def playGame(request, game_id):
-    print(game_id)
+
     if request.method == 'GET':
         try:
             game = Game.objects.get(pk=game_id)
@@ -52,7 +52,8 @@ def playGame(request, game_id):
 
             try:
                 obj = OwnedGame.objects.get(player=request.user, game = game_id)
-                obj.progress = json.loads(request.POST['state'])
+                print(request.POST['state'])
+                obj.progress = request.POST['state']
                 obj.save()  
                 return JsonResponse({'status':'Success', 'msg': 'progress save successfully'})
             except:
@@ -62,7 +63,9 @@ def playGame(request, game_id):
 
             try:
                 obj = OwnedGame.objects.get(player=request.user, game = game_id)
-                progress = obj.progress
+                print(obj.progress)
+                progress = json.dumps(obj.progress)
+                print(progress)
                 return HttpResponse(progress)
 
             except:
