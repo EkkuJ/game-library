@@ -3,7 +3,7 @@
 {% block content %}
 <div class="container" style="padding-top: 30px;">
     <div class="gameView" style="display: inline-flex;">
-        <iframe id="myFrame" style="width: 100; height: 100;" src={{ game.url }}>
+        <iframe id="myFrame" style="width: 500px; height: 500px;" src={{ game.url }}>
         </iframe>
         <div class="media-body" style="padding-left: 10px;">
             <h5 class="mt-0">{{ game.name }}</h5>
@@ -32,12 +32,16 @@
     var myFrame = document.getElementById('myFrame').contentWindow;
     window.onmessage = function (event) {
         var message = event.data;
-
         if (message.messageType == "SETTING") {
-            $("myFrame").width = message.options.width;
-            $("myFrame").height = message.options.height;
+
+            var width = message.options.width.toString().concat("px");
+            var height = message.options.height.toString().concat("px");
+
+            $("#myFrame")[0].style.width = width;
+            $("#myFrame")[0].style.height = height;
 
         } else if (message.messageType == "SCORE") {
+            console.log(message.score);
             $.ajax({
                 type: 'POST',
                 url: '/gameLibrary/playGame/{{ game.id }}',

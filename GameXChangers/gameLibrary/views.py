@@ -29,10 +29,10 @@ def playGame(request, game_id):
 
     if request.method == 'GET':
         try:
-            game = Game.objects.get(pk=game_id)
             owned_game_objects = list(filter(lambda x: x.game.id == game_id,
             OwnedGame.objects.all()))
             users_game = OwnedGame.objects.get(player = request.user, game = game_id)
+            game = users_game.game
             context = {'game': game, 'owned_game_objects': owned_game_objects, 'users_game': users_game,}
         except Game.DoesNotExist:
             raise Http404("Game does not exist")
@@ -63,9 +63,7 @@ def playGame(request, game_id):
 
             try:
                 obj = OwnedGame.objects.get(player=request.user, game = game_id)
-                print(obj.progress)
                 progress = json.dumps(obj.progress)
-                print(progress)
                 return HttpResponse(progress)
 
             except:
