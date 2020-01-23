@@ -3,28 +3,89 @@
 {% block content %}
 <div class="container" style="padding-top: 30px;">
     <div class="gameView" style="display: inline-flex;">
-        <iframe id="myframe" width="300" height="230" src={{ game.url }}>
+        <iframe id="myFrame" style="width: 500px; height: 500px;" src={{ game.url }}>
         </iframe>
         <div class="media-body" style="padding-left: 10px;">
             <h5 class="mt-0">{{ game.name }}</h5>
             <p>{{ game.description }}</p>
+            <div class="media-body" style="padding-left: 10px; padding-top: 20px;">
+                <h5 class="mt-0">Highscores</h5>
+                {% if owned_game_objects %}
+                {% for owned_game in owned_game_objects %}
+                <span class="card-body">
+                    <h6>{{ owned_game.player.username }}
+                        <span class="badge badge-secondary">{{ owned_game.highscore }}
+                        </span></h6>
+                </span>
+                {% endfor %}
+                {% else %}
+                <p>No scores yet</p>
+                {% endif %}
+            </div>
         </div>
     </div>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
-    window.onmessage = function(event) {
-    event.source.postMessage(document.body.innerHTML, event.origin);
-};
 
-// Main page:
-window.onmessage = function(event) {
-    console.log("j")
-    alert(event.data);
-};
+    var myFrame = document.getElementById('myFrame').contentWindow;
+    window.onmessage = function (event) {
+        var message = event.data;
+        if (message.messageType == "SETTING") {
 
-// Trigger:
-// <iframe id="myframe" src="framed.htm"></iframe>
-document.getElementById('myframe').contentWindow.postMessage('','*');
+            var width = message.options.width.toString().concat("px");
+            var height = message.options.height.toString().concat("px");
+
+            $("#myFrame")[0].style.width = width;
+            $("#myFrame")[0].style.height = height;
+
+        } else if (message.messageType == "SCORE") {
+            console.log(message.score);
+            $.ajax({
+                type: 'POST',
+                url: '/gameLibrary/playGame/{{ game.id }}',
+                data: {
+                    'csrfmiddlewaretoken': "{{  csrf_token  }}",
+                    score: message.score
+                },
+                success: function () { }
+            });
+
+        } else if (message.messageType == "SAVE") {
+            $.ajax({
+                type: 'POST',
+                url: '/gameLibrary/playGame/{{ game.id }}',
+                data: {
+                    'csrfmiddlewaretoken': "{{  csrf_token  }}",
+                    state: JSON.stringify(message.gameState)
+                },
+                success: function () { }
+            });
+
+        } else if (message.messageType == "LOAD_REQUEST") {
+
+
+            $.ajax({
+                type: 'POST',
+                url: '/gameLibrary/playGame/{{ game.id }}',
+                data: {
+                    'csrfmiddlewaretoken': "{{  csrf_token  }}",
+                    getProgress: ""
+                },
+                success: function (result) {
+                    var res = JSON.parse(JSON.parse(result));
+                    var loadMessage = {
+                        "messageType": "LOAD",
+                        "gameState": res
+                    };
+                    myFrame.postMessage(loadMessage, "*");
+                }
+            })
+        };
+
+    };
+
 </script>
 
 {% endblock %}

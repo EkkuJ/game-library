@@ -5,16 +5,10 @@
 {% if game_list %}
 {% for game in game_list %}
 <div class="card-body">
+    {% if game not in owned_game_list %}
     <h5 class="card-title">{{ game.name }}</h5>
     <p class="card-text">{{ game.description }}</p>
-
-    <!-- if the user owns the game, they can play it, otherwise they can buy it -->
-    {% if game in owned_game_list %}
-    <a href="{% url 'gameLibrary:playGame' game.id %}" class="btn btn-primary">Play Game</a>
-
-    {% else %}
     <a href="{% url 'gameLibrary:playGame' game.id %}" class="btn btn-primary">Buy Game</a>
-
     {% endif %}
 </div> 
 {% endfor %}
