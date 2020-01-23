@@ -75,15 +75,10 @@
                 },
                 success: function (result) {
                     var res = JSON.parse(JSON.parse(result));
-
                     var loadMessage = {
                         "messageType": "LOAD",
-                        "gameState": {
-                            "playerItems": res.playerItems,
-                            "score": res.score
-                        }
+                        "gameState": res
                     };
-
                     myFrame.postMessage(loadMessage, "*");
                 }
             })
