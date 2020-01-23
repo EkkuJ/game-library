@@ -34,5 +34,9 @@ class OwnedGame(models.Model):
     game = models.ForeignKey(Game, on_delete=models.CASCADE)
     bought_at = models.DateTimeField(default=timezone.now)
     # 0-100
-    progress = models.IntegerField(default=0)
+    progress = models.TextField(blank=True) # json object converted to string
     highscore = models.IntegerField(default=0)
+
+    def str(self):
+        return self.name
+
