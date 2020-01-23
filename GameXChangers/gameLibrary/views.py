@@ -28,22 +28,6 @@ def myGames(request):
 
 # Show gaming view for specific game
 def playGame(request, game_id):
-<<<<<<< HEAD
-    try:
-        game = Game.objects.get(pk=game_id)
-    except Game.DoesNotExist:
-        raise Http404("Question does not exist")
-    return render(request, 'gameLibrary/playGame.html', { 'game': game })
-
-
-#player id found in request.user
-def buyGame(request, game_id):
-    #user
-    #games
-    return render(request, 'gameLibrary/buyGame.html', { 'game': game })
-
-
-=======
 
     if request.method == 'GET':
         try:
@@ -103,4 +87,10 @@ def addGame(request):
         form = GameForm()
 
     return render(request, 'gameLibrary/addGame.html', {'form': form})
->>>>>>> d2985b32fddf9b72c867f7e9060294335903ef50
+
+
+#player id found in request.user
+def buyGame(request, game_id):
+    #user
+    #games
+    return render(request, 'gameLibrary/buyGame.html', { 'game': game })
