@@ -6,7 +6,7 @@ from django.http import JsonResponse
 import json
 from django.http import HttpResponse
 from hashlib import md5
-from .paymentHelpers import getChecksum, getPid, getSid
+from .paymentHelpers import getChecksum, getPid, getSid, getIncomingChecksum
 
 
 # Create your views here.
@@ -57,7 +57,7 @@ def playGame(request, game_id):
         elif 'state' in request.POST:
 
             try:
-                obj = OwnedGame.objects.get(player=request.user, game = game_id)
+                obj = OwnedGame.objects.get(player=request.user, game=game_id)
                 print(request.POST['state'])
                 obj.progress = request.POST['state']
                 obj.save()  
@@ -68,7 +68,7 @@ def playGame(request, game_id):
         elif 'getProgress' in request.POST:
 
             try:
-                obj = OwnedGame.objects.get(player=request.user, game = game_id)
+                obj = OwnedGame.objects.get(player=request.user, game=game_id)
                 progress = json.dumps(obj.progress)
                 return HttpResponse(progress)
 
@@ -101,5 +101,29 @@ def buyGame(request, game_id):
     pid = getPid(player, game_id)
     sid = getSid()
     checksum = getChecksum(pid, sid, game.price)
-    context = {'game': game, 'pid': pid, 'sid': sid, 'checksum': checksum}
+    context = {'game': game, 'pid': pid, 'sid': sid, 'checksum': checksum, 'player': player}
     return render(request, 'gameLibrary/buyGame.html', context)
+
+
+def success(request):
+
+    # get returns None if not found.
+    checksum = getIncomingChecksum(request.GET.get("pid"), request.GET.get("ref"), request.GET.get("result"))
+    isValid = checksum == request.GET.get("checksum")
+    if isValid:
+        # first get the pid from the request
+        pid = request.GET.get("pid")
+        # then get player and game ids from the pid
+        divider = pid.find(':')
+        player_id = pid[0:divider]
+        game_id = pid[divider+1:len(pid)]
+        # then get the player and game corresponding to them
+        player = User.objects.get(id=player_id)
+        game = Game.objects.get(id=game_id)
+        # then make a new ownedgame and save it
+        newOwnedGame = OwnedGame(player=player, game=game)
+        newOwnedGame.save()
+        context = {'game': game}
+        return render(request, 'gameLibrary/success.html', context)
+    else:
+        return render(request, 'gameLibrary/error.html')
