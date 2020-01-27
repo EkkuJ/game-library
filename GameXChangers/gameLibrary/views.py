@@ -5,6 +5,7 @@ from .forms import GameForm
 from django.http import JsonResponse
 import json
 from django.http import HttpResponse
+from hashlib import md5
 
 
 # Create your views here.
@@ -12,7 +13,8 @@ from django.http import HttpResponse
 def home(request):
     return render(request, 'gameLibrary/home.html')
 
-#the buygame feature will be implemented here
+
+# the buygame feature will be implemented here
 def browseGames(request):
 
     game_list = Game.objects.all()
@@ -21,19 +23,20 @@ def browseGames(request):
     context = {'game_list': game_list, 'owned_game_list': owned_game_list}
     return render(request, 'gameLibrary/browseGames.html', context)
 
+
 def myGames(request):
     my_games = list(filter(lambda x: x.player == request.user, OwnedGame.objects.all()))
     context = {'my_games': my_games}
     return render(request, 'gameLibrary/myGames.html', context)
+
 
 # Show gaming view for specific game
 def playGame(request, game_id):
 
     if request.method == 'GET':
         try:
-            owned_game_objects = list(filter(lambda x: x.game.id == game_id,
-            OwnedGame.objects.all()))
-            users_game = OwnedGame.objects.get(player = request.user, game = game_id)
+            owned_game_objects = list(filter(lambda x: x.game.id == game_id, OwnedGame.objects.all()))
+            users_game = OwnedGame.objects.get(player=request.user, game=game_id)
             game = users_game.game
             context = {'game': game, 'owned_game_objects': owned_game_objects, 'users_game': users_game,}
         except Game.DoesNotExist:
@@ -42,7 +45,7 @@ def playGame(request, game_id):
         if 'score' in request.POST:
 
             try:
-                obj = OwnedGame.objects.get(player=request.user, game = game_id)
+                obj = OwnedGame.objects.get(player=request.user, game=game_id)
                 if int(request.POST['score']) > obj.highscore: 
                     obj.highscore = int(request.POST['score'])
                     obj.save()
@@ -71,7 +74,6 @@ def playGame(request, game_id):
             except:
                 raise Http404("Progress not found")
 
-
     return render(request, 'gameLibrary/playGame.html', context)
 
 
@@ -89,8 +91,36 @@ def addGame(request):
     return render(request, 'gameLibrary/addGame.html', {'form': form})
 
 
-#player id found in request.user
+# sid = "UBN1CUdhbWVYQ2hhbmdlcnM="
+
+
+def getChecksum(pid, sid, amount):
+    secret = "tySaeUTMVu8yVBoURQ3kUo4gzqwA"
+    checksumstr = f"pid={pid:s}&sid={sid:s}&amount={amount:.2f}&token={secret:s}"
+    checksum = md5(checksumstr.encode('utf-8')).hexdigest()
+    return checksum
+
+
+# pid max len 64, so we get somehow unique stuff here maybe?
+def getPid(player, game_id):
+    player.username
+    return "1"
+
+
+pid = "1"
+sid = "UBN1CUdhbWVYQ2hhbmdlcnM="
+secret = "tySaeUTMVu8yVBoURQ3kUo4gzqwA"
+
+
+# player id found in request.user
 def buyGame(request, game_id):
-    #user
-    #games
-    return render(request, 'gameLibrary/buyGame.html', { 'game': game })
+    # user
+    # games
+    player = request.user
+    game = Game.objects.get(id=game_id)
+    pid = getPid(player, game_id)
+    sid = "UBN1CUdhbWVYQ2hhbmdlcnM="
+    checksum = getChecksum(pid, sid, game.price)
+
+    context = {'game': game, 'pid': pid, 'sid': sid, 'checksum': checksum}
+    return render(request, 'gameLibrary/buyGame.html', context)
