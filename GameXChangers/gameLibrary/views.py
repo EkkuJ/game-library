@@ -127,3 +127,7 @@ def success(request):
         return render(request, 'gameLibrary/success.html', context)
     else:
         return render(request, 'gameLibrary/error.html')
+
+
+def error(request):
+    return render(request, 'gameLibrary/error.html')
