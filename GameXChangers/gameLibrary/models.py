@@ -18,7 +18,7 @@ class Game(models.Model):
     description = models.TextField(default='Game Description')
     url = models.URLField(blank=True)
     highscore = models.IntegerField(default=0)
-    price = models.FloatField(default=0)
+    price = models.DecimalField(max_digits=12, default=0, decimal_places=2)
 
     # May be more efficient to store the "player-game" -relation
     # in the User-model. To be considered
