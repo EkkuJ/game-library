@@ -85,7 +85,7 @@ def addGame(request):
             game = form.save(commit=False)
             game.developer = request.user
             game.save()
-    
+
     else:
         form = GameForm()
 
@@ -101,6 +101,5 @@ def buyGame(request, game_id):
     pid = getPid(player, game_id)
     sid = getSid()
     checksum = getChecksum(pid, sid, game.price)
-
     context = {'game': game, 'pid': pid, 'sid': sid, 'checksum': checksum}
     return render(request, 'gameLibrary/buyGame.html', context)

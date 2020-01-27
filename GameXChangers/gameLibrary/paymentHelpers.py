@@ -12,10 +12,12 @@ def getChecksum(pid, sid, amount):
     return checksum
 
 
-# pid max len 64, so we get somehow unique stuff here maybe?
+# pid max len 64. implemented so that player id is first and then game_id.
+# Will be good until there are more players than 10^32 or games than 10^32
 def getPid(player, game_id):
-    player.username
-    return "1"
+    pid = str(player.id) + str(game_id)
+    # print(pid)
+    return pid
 
 
 def getSid():
