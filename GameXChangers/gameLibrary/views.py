@@ -6,6 +6,7 @@ from django.http import JsonResponse
 import json
 from django.http import HttpResponse
 from hashlib import md5
+from .paymentHelpers import getChecksum, getPid, getSid
 
 
 # Create your views here.
@@ -91,27 +92,6 @@ def addGame(request):
     return render(request, 'gameLibrary/addGame.html', {'form': form})
 
 
-# sid = "UBN1CUdhbWVYQ2hhbmdlcnM="
-
-
-def getChecksum(pid, sid, amount):
-    secret = "tySaeUTMVu8yVBoURQ3kUo4gzqwA"
-    checksumstr = f"pid={pid:s}&sid={sid:s}&amount={amount:.2f}&token={secret:s}"
-    checksum = md5(checksumstr.encode('utf-8')).hexdigest()
-    return checksum
-
-
-# pid max len 64, so we get somehow unique stuff here maybe?
-def getPid(player, game_id):
-    player.username
-    return "1"
-
-
-pid = "1"
-sid = "UBN1CUdhbWVYQ2hhbmdlcnM="
-secret = "tySaeUTMVu8yVBoURQ3kUo4gzqwA"
-
-
 # player id found in request.user
 def buyGame(request, game_id):
     # user
@@ -119,7 +99,7 @@ def buyGame(request, game_id):
     player = request.user
     game = Game.objects.get(id=game_id)
     pid = getPid(player, game_id)
-    sid = "UBN1CUdhbWVYQ2hhbmdlcnM="
+    sid = getSid()
     checksum = getChecksum(pid, sid, game.price)
 
     context = {'game': game, 'pid': pid, 'sid': sid, 'checksum': checksum}
