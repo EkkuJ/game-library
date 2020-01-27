@@ -14,11 +14,20 @@ def getChecksum(pid, sid, amount):
 
 # pid max len 64. implemented so that player id is first and then game_id.
 # Will be good until there are more players than 10^32 or games than 10^32
+# the ':' divides player id and game id so we can later use only the data coming from payment service
+# to decide which game is linked to which player in the ownedgame relation
 def getPid(player, game_id):
-    pid = str(player.id) + str(game_id)
+    pid = str(player.id) + ':' + str(game_id)
     # print(pid)
     return pid
 
 
 def getSid():
     return sid
+
+
+def getIncomingChecksum(pid, ref, result):
+    secret = "tySaeUTMVu8yVBoURQ3kUo4gzqwA"
+    checksumstr = f"pid={pid:s}&ref={ref:s}&result={result:s}&token={secret:s}"
+    checksum = md5(checksumstr.encode('utf-8')).hexdigest()
+    return checksum
