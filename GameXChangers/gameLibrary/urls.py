@@ -12,5 +12,5 @@ urlpatterns = [
     path('buyGame/<int:game_id>', views.buyGame, name='buyGame'),
     path('addGame/', views.addGame, name='addGame'),
     path('success/', views.success, name='success'),
-    path('error/', views.success, name='error'),
+    path('error/', views.error, name='error'),
 ]
