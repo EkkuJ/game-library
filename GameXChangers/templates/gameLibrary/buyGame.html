@@ -20,20 +20,4 @@
           </form>
     </div>
 </div>
-<script>
-    window.onmessage = function(event) {
-    event.source.postMessage(document.body.innerHTML, event.origin);
-};
-
-// Main page:
-window.onmessage = function(event) {
-    console.log("j")
-    alert(event.data);
-};
-
-// Trigger:
-// <iframe id="myframe" src="framed.htm"></iframe>
-document.getElementById('myframe').contentWindow.postMessage('','*');
-</script>
-
 {% endblock %}
