@@ -7,6 +7,7 @@
             <h5 class="mt-0">{{ game.name }}</h5>
             <p>{{ game.description }}</p>
         </div>
+        {% if user.is_authenticated %}
         <form action="https://tilkkutakki.cs.aalto.fi/payments/pay" method="POST">
             <input type="hidden" name="pid" value={{pid}}>
             <input type="hidden" name="sid" value={{sid}}>
@@ -18,6 +19,9 @@
             Amount to be paid <p>{{game.price}}</p>
             <input type="submit" value="Pay">
           </form>
+        {% else %}
+        <p>You must log in in order to buy games</p>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
