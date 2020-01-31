@@ -10,4 +10,5 @@ urlpatterns = [
     path('myGames/', views.myGames, name='myGames'),
     path('playGame/<int:game_id>', views.playGame, name='playGame'),
     path('addGame/', views.addGame, name='addGame'),
+    path('api/', views.api, name='api'),
 ]
