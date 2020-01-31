@@ -98,7 +98,7 @@ def buyGame(request, game_id):
     # games
     player = request.user
     game = Game.objects.get(id=game_id)
-    pid = getPid(player, game_id)
+    pid = getPid(player, game)
     sid = getSid()
     checksum = getChecksum(pid, sid, game.price)
     context = {'game': game, 'pid': pid, 'sid': sid, 'checksum': checksum, 'player': player}
@@ -114,9 +114,10 @@ def success(request):
         # first get the pid from the request
         pid = request.GET.get("pid")
         # then get player and game ids from the pid
-        divider = pid.find(':')
-        player_id = pid[0:divider]
-        game_id = pid[divider+1:len(pid)]
+        divider1 = pid.find(':')
+        divider2 = pid.find('/')
+        player_id = pid[0:divider1]
+        game_id = pid[divider1+1:divider2]
         # then get the player and game corresponding to them
         player = User.objects.get(id=player_id)
         game = Game.objects.get(id=game_id)
