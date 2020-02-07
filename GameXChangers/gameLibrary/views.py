@@ -85,6 +85,10 @@ def addGame(request):
             game.developer = request.user
             game.save()
 
+            # We also want the user to be able to play the game that she added
+            newOwnedGame = OwnedGame(player=request.user, game=game)
+            newOwnedGame.save()
+
     else:
         form = GameForm()
 
