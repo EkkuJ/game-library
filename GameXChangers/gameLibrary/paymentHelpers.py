@@ -1,12 +1,12 @@
 from hashlib import md5
+from django.conf import settings
 # from .models import Payment
 import random
-sid = "UBN1CUdhbWVYQ2hhbmdlcnM="
-secret = "tySaeUTMVu8yVBoURQ3kUo4gzqwA"
+sid = settings.PAYMENT_SID
+secret = settings.PAYMENT_SECRET
 
 
 def getChecksum(pid, sid, amount):
-    secret = "tySaeUTMVu8yVBoURQ3kUo4gzqwA"
     checksumstr = f"pid={pid:s}&sid={sid:s}&amount={amount:.2f}&token={secret:s}"
     checksum = md5(checksumstr.encode('utf-8')).hexdigest()
     return checksum
@@ -29,7 +29,6 @@ def getSid():
 
 
 def getIncomingChecksum(pid, ref, result):
-    secret = "tySaeUTMVu8yVBoURQ3kUo4gzqwA"
     checksumstr = f"pid={pid:s}&ref={ref:s}&result={result:s}&token={secret:s}"
     checksum = md5(checksumstr.encode('utf-8')).hexdigest()
     return checksum
