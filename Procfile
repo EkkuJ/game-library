@@ -1,0 +1,1 @@
+web: gunicorn GameXChangers.wsgi --log-file -
