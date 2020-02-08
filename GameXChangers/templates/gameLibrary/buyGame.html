@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="padding-top: 30px;">
+    <div class="gameView" style="display: inline-flex;">
+        <div class="media-body" style="padding-left: 10px;">
+            <h5 class="mt-0">{{ game.name }}</h5>
+            <p>{{ game.description }}</p>
+        </div>
+        <form action="https://tilkkutakki.cs.aalto.fi/payments/pay" method="POST">
+            <input type="hidden" name="pid" value={{pid}}>
+            <input type="hidden" name="sid" value={{sid}}>
+            <input type="hidden" name="amount" value={{game.price}}>
+            <input type="hidden" name="success_url" value="http://localhost:8000/gameLibrary/success">
+            <input type="hidden" name="cancel_url" value="http://localhost:8000/gameLibrary/browseGames">
+            <input type="hidden" name="error_url" value="http://localhost:8000/gameLibrary/error">
+            <input type="hidden" name="checksum"value={{checksum}}>
+            Amount to be paid <p>{{game.price}}</p>
+            <input type="submit" value="Pay">
+          </form>
+    </div>
+</div>
+{% endblock %}
