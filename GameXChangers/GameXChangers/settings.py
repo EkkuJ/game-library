@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'kzx8r80!wvt(rd_ie=2dz7oviwsdmovl-pwdb#y*e$^0*-fy1c'
 # SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['https://game-x-changers.herokuapp.com/']
+ALLOWED_HOSTS = ['game-x-changers.herokuapp.com']
 
 
 # Application definition
@@ -122,3 +122,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/gameLibrary/'
+
+# This check makes the code run only inside Heroku
+  if "DYNO" in os.environ:
+      STATIC_ROOT = 'staticfiles'
+      import dj_database_url
+      DATABASES['default'] =  dj_database_url.config(conn_max_age=600, ssl_require=True)
+
+      ALLOWED_HOSTS = ['game-x-changers.herokuapp.com']
