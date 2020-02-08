@@ -25,7 +25,7 @@ SECRET_KEY = 'kzx8r80!wvt(rd_ie=2dz7oviwsdmovl-pwdb#y*e$^0*-fy1c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [game-x-changers.heroku.com]
 
 
 # Application definition
