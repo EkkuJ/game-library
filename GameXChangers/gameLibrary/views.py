@@ -42,7 +42,7 @@ def playGame(request, game_id):
             context = {'game': game, 'owned_game_objects': owned_game_objects, 'users_game': users_game,}
         except Game.DoesNotExist:
             raise Http404("Game does not exist")
-    else:
+    elif request.method == 'POST':
         if 'score' in request.POST:
 
             try:
@@ -75,6 +75,9 @@ def playGame(request, game_id):
             except:
                 raise Http404("Progress not found")
 
+    else:
+        return Http404("Request not found")
+
     return render(request, 'gameLibrary/playGame.html', context)
 
 
@@ -91,6 +94,12 @@ def addGame(request):
 
     return render(request, 'gameLibrary/addGame.html', {'form': form})
 
+def api(request):
+
+    all_games = (Game.objects.all())
+    mapped = json.dumps(list(map(lambda g: g.name, all_games)))
+
+    return render(request, 'gameLibrary/api.html', {'mapped': mapped})
 
 # player id found in request.user
 def buyGame(request, game_id):
