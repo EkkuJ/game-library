@@ -25,7 +25,7 @@ SECRET_KEY = 'kzx8r80!wvt(rd_ie=2dz7oviwsdmovl-pwdb#y*e$^0*-fy1c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['game-x-changers.herokuapp.com']
+ALLOWED_HOSTS = ['game-x-changers.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
@@ -42,7 +42,6 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -125,23 +124,10 @@ STATIC_URL = '/static/'
 LOGIN_REDIRECT_URL = '/gameLibrary/'
 
 # This check makes the code run only inside Heroku
-  if "DYNO" in os.environ:
-      STATIC_ROOT = 'staticfiles'
-      import dj_database_url
-      DATABASES['default'] =  dj_database_url.config(conn_max_age=600, ssl_require=True)
+if "DYNO" in os.environ:
+    STATIC_ROOT = 'staticfiles'
+    import dj_database_url
+    DATABASES['default'] =  dj_database_url.config(conn_max_age=600, ssl_require=True)
 
-      ALLOWED_HOSTS = ['game-x-changers.herokuapp.com']
+    ALLOWED_HOSTS = ['game-x-changers.herokuapp.com']
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.11/howto/static-files/
-PROJECT_ROOT   =   os.path.join(os.path.abspath(__file__))
-STATIC_ROOT  =   os.path.join(PROJECT_ROOT, 'staticfiles')
-STATIC_URL = '/static/'
-
-# Extra lookup directories for collectstatic to find static files
-STATICFILES_DIRS = (
-    os.path.join(PROJECT_ROOT, 'static'),
-)
-
-#  Add configuration for static files storage using whitenoise
-STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
