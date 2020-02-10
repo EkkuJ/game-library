@@ -5,9 +5,8 @@ from .forms import GameForm
 from django.http import JsonResponse
 import json
 from django.http import HttpResponse
-from hashlib import md5
+# from hashlib import md5
 from .paymentHelpers import getChecksum, getPid, getSid, getIncomingChecksum
-
 
 # Create your views here.
 
@@ -50,7 +49,7 @@ def playGame(request, game_id):
                 if int(request.POST['score']) > obj.highscore: 
                     obj.highscore = int(request.POST['score'])
                     obj.save()
-                return JsonResponse({'status':'Success', 'msg': ' highscore save successfully'})
+                return JsonResponse({'status': 'Success', 'msg': ' highscore save successfully'})
             except:
                 raise Http404("Game not updated")
 
@@ -60,11 +59,11 @@ def playGame(request, game_id):
                 obj = OwnedGame.objects.get(player=request.user, game=game_id)
                 print(request.POST['state'])
                 obj.progress = request.POST['state']
-                obj.save()  
+                obj.save()
                 return JsonResponse({'status':'Success', 'msg': 'progress save successfully'})
             except:
                 raise Http404("GameState not saved")
-        
+
         elif 'getProgress' in request.POST:
 
             try:
@@ -89,6 +88,10 @@ def addGame(request):
             game.developer = request.user
             game.save()
 
+            # We also want the user to be able to play the game that she added
+            newOwnedGame = OwnedGame(player=request.user, game=game)
+            newOwnedGame.save()
+
     else:
         form = GameForm()
 
@@ -101,17 +104,26 @@ def api(request):
 
     return render(request, 'gameLibrary/api.html', {'mapped': mapped})
 
+def developedGames(request):
+    my_games = list(filter(lambda x: x.developer == request.user, Game.objects.all()))
+    context = {'my_games': my_games}
+    return render(request, 'gameLibrary/developedGames.html', context)
+
+
 # player id found in request.user
 def buyGame(request, game_id):
     # user
     # games
-    player = request.user
-    game = Game.objects.get(id=game_id)
-    pid = getPid(player, game)
-    sid = getSid()
-    checksum = getChecksum(pid, sid, game.price)
-    context = {'game': game, 'pid': pid, 'sid': sid, 'checksum': checksum, 'player': player}
-    return render(request, 'gameLibrary/buyGame.html', context)
+    try:
+        player = request.user
+        game = Game.objects.get(id=game_id)
+        pid = getPid(player, game)
+        sid = getSid()
+        checksum = getChecksum(pid, sid, game.price)
+        context = {'game': game, 'pid': pid, 'sid': sid, 'checksum': checksum, 'player': player}
+        return render(request, 'gameLibrary/buyGame.html', context)
+    except:
+        raise Http404("Game not found")
 
 
 def success(request):

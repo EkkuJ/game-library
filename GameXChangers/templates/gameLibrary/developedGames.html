@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center mb-3">Games that I developed</h1>
+{% if my_games %}
+{% for game in my_games %}
+<div class="card-body">
+    <h5 class="card-title">{{ game.name }}</h5>
+    <p class="card-text">{{ game.description }}</p>
+    <a href="{% url 'gameLibrary:playGame' game.id %}" class="btn btn-primary">Play Game</a>
+</div> 
+{% endfor %}
+{% else %}
+<p>No games available</p>
+{% endif %}
+{% endblock %}

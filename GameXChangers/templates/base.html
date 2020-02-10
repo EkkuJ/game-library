@@ -32,11 +32,17 @@
                         <a class="nav-link" href="/gameLibrary/myGames/">My Games</a>
                     </li>
 
+                    {% ifequal user.groups.all.0.name "Developer" %}
                     <li class="nav-item">
                         <a class="nav-link" href="/gameLibrary/addGame/">Add Game</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/gameLibrary/developedGames/">My Developed Games</a>
+                    </li>
+                    {% endifequal %}
                     
                     {% endif %}
+
                     
                 </ul>
                 

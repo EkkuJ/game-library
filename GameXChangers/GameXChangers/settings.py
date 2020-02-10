@@ -21,6 +21,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'kzx8r80!wvt(rd_ie=2dz7oviwsdmovl-pwdb#y*e$^0*-fy1c'
+PAYMENT_SECRET = os.environ.get('PAYMENT_SECRET')
+PAYMENT_SID = os.environ.get('PAYMENT_SID')
+# print(PAYMENT_SECRET)
 # SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
