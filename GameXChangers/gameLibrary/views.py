@@ -7,6 +7,7 @@ import json
 from django.http import HttpResponse
 # from hashlib import md5
 from .paymentHelpers import getChecksum, getPid, getSid, getIncomingChecksum
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 # Create your views here.
 
@@ -23,7 +24,7 @@ def browseGames(request):
     context = {'game_list': game_list, 'owned_game_list': owned_game_list}
     return render(request, 'gameLibrary/browseGames.html', context)
 
-
+@login_required
 def myGames(request):
     my_games = list(filter(lambda x: x.player == request.user, OwnedGame.objects.all()))
     context = {'my_games': my_games}
@@ -31,6 +32,7 @@ def myGames(request):
 
 
 # Show gaming view for specific game
+@login_required
 def playGame(request, game_id):
 
     if request.method == 'GET':
@@ -80,6 +82,14 @@ def playGame(request, game_id):
     return render(request, 'gameLibrary/playGame.html', context)
 
 
+def is_developer(user):
+    boolvalue = user.groups.filter(name='Developer').exists()
+    print(boolvalue)
+    return boolvalue
+
+
+@login_required
+@user_passes_test(is_developer, login_url='/gameLibrary')
 def addGame(request):
     if request.method == 'POST':
         form = GameForm(request.POST)
@@ -97,6 +107,7 @@ def addGame(request):
 
     return render(request, 'gameLibrary/addGame.html', {'form': form})
 
+
 def api(request):
 
     all_games = (Game.objects.all())
@@ -104,6 +115,9 @@ def api(request):
 
     return render(request, 'gameLibrary/api.html', {'mapped': mapped})
 
+
+@login_required
+@user_passes_test(is_developer, login_url='/gameLibrary')
 def developedGames(request):
     my_games = list(filter(lambda x: x.developer == request.user, Game.objects.all()))
     context = {'my_games': my_games}
@@ -111,6 +125,7 @@ def developedGames(request):
 
 
 # player id found in request.user
+@login_required
 def buyGame(request, game_id):
     # user
     # games
@@ -126,6 +141,7 @@ def buyGame(request, game_id):
         raise Http404("Game not found")
 
 
+@login_required
 def success(request):
 
     # get returns None if not found.
@@ -150,6 +166,6 @@ def success(request):
     else:
         return render(request, 'gameLibrary/error.html')
 
-
+@login_required
 def error(request):
     return render(request, 'gameLibrary/error.html')
