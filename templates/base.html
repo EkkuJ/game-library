@@ -15,7 +15,7 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="/gameLibrary/"><b>Game X Changers</b></a>
+            <a class="navbar-brand" href="/"><b>Game X Changers</b></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -24,20 +24,20 @@
                 <ul class="navbar-nav mr-auto">
                     
                     <li class="nav-item">
-                        <a class="nav-link" href="/gameLibrary/browseGames/">Browse Games</a>
+                        <a class="nav-link" href="/browseGames/">Browse Games</a>
                     </li>
 
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/gameLibrary/myGames/">My Games</a>
+                        <a class="nav-link" href="/myGames/">My Games</a>
                     </li>
 
                     {% ifequal user.groups.all.0.name "Developer" %}
                     <li class="nav-item">
-                        <a class="nav-link" href="/gameLibrary/addGame/">Add Game</a>
+                        <a class="nav-link" href="/addGame/">Add Game</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/gameLibrary/developedGames/">My Developed Games</a>
+                        <a class="nav-link" href="/developedGames/">My Developed Games</a>
                     </li>
                     {% endifequal %}
                     

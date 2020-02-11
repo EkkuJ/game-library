@@ -44,7 +44,7 @@
             console.log(message.score);
             $.ajax({
                 type: 'POST',
-                url: '/gameLibrary/playGame/{{ game.id }}',
+                url: '/playGame/{{ game.id }}',
                 data: {
                     'csrfmiddlewaretoken': "{{  csrf_token  }}",
                     score: message.score
@@ -55,7 +55,7 @@
         } else if (message.messageType == "SAVE") {
             $.ajax({
                 type: 'POST',
-                url: '/gameLibrary/playGame/{{ game.id }}',
+                url: '/playGame/{{ game.id }}',
                 data: {
                     'csrfmiddlewaretoken': "{{  csrf_token  }}",
                     state: JSON.stringify(message.gameState)
@@ -68,7 +68,7 @@
 
             $.ajax({
                 type: 'POST',
-                url: '/gameLibrary/playGame/{{ game.id }}',
+                url: '/playGame/{{ game.id }}',
                 data: {
                     'csrfmiddlewaretoken': "{{  csrf_token  }}",
                     getProgress: ""
