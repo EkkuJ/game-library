@@ -8,8 +8,10 @@ from django.http import HttpResponse
 # from hashlib import md5
 from .paymentHelpers import getChecksum, getPid, getSid, getIncomingChecksum
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import messages
 
 # Create your views here.
+
 
 def home(request):
     return render(request, 'gameLibrary/home.html')
@@ -84,8 +86,13 @@ def playGame(request, game_id):
 
 def is_developer(user):
     boolvalue = user.groups.filter(name='Developer').exists()
-    print(boolvalue)
+    # print(boolvalue)
     return boolvalue
+
+"""def ownsGame(user, game_id):
+    boolvalue = user.groups.filter(name='Developer').exists()
+    # print(boolvalue)
+    return boolvalue"""
 
 
 @login_required
@@ -124,6 +131,31 @@ def developedGames(request):
     return render(request, 'gameLibrary/developedGames.html', context)
 
 
+@login_required
+@user_passes_test(is_developer, login_url='/gameLibrary')
+def removeGame(request, game_id):
+    try:
+        # We get the game from ownedgames with the users id and given game_id.
+        owned_game = OwnedGame.objects.get(player=request.user, game=game_id)
+        # If there is no such ownedGame, the next line will throw a Game.DoesNotExist.
+        game = owned_game.game
+        # If the user is the developer, they can delete the game
+        if game.developer == request.user:
+            owned_game.delete()
+            game.delete()
+            messages.success(request, 'Successful removal of the game')
+        else:
+            raise Exception('')
+    except Exception:
+        messages.warning(request, 'Failed to remove the game')
+
+    # Get the data to pass to the developedGames template
+    my_games = list(filter(lambda x: x.developer == request.user, Game.objects.all()))
+    context = {'my_games': my_games}
+
+    return render(request, 'gameLibrary/developedGames.html', context)
+
+
 # player id found in request.user
 @login_required
 def buyGame(request, game_id):
@@ -137,8 +169,8 @@ def buyGame(request, game_id):
         checksum = getChecksum(pid, sid, game.price)
         context = {'game': game, 'pid': pid, 'sid': sid, 'checksum': checksum, 'player': player}
         return render(request, 'gameLibrary/buyGame.html', context)
-    except:
-        raise Http404("Game not found")
+    except Exception:
+        messages.warning(request, 'Failed to remove the game')
 
 
 @login_required
@@ -162,9 +194,13 @@ def success(request):
         newOwnedGame = OwnedGame(player=player, game=game)
         newOwnedGame.save()
         context = {'game': game}
+
+        # This could also be implemented by giving a error message and rendering
+        # the browseGames/playGame
         return render(request, 'gameLibrary/success.html', context)
     else:
         return render(request, 'gameLibrary/error.html')
+
 
 @login_required
 def error(request):

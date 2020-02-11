@@ -10,6 +10,7 @@ urlpatterns = [
     path('myGames/', views.myGames, name='myGames'),
     path('playGame/<int:game_id>', views.playGame, name='playGame'),
     path('developedGames/', views.developedGames, name='developedGames'),
+    path('removeGame/<int:game_id>', views.removeGame, name='removeGame'),
     path('buyGame/<int:game_id>', views.buyGame, name='buyGame'),
     path('addGame/', views.addGame, name='addGame'),
     path('api/', views.api, name='api'),
