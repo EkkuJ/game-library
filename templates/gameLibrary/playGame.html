@@ -42,6 +42,7 @@
 
         } else if (message.messageType == "SCORE") {
             console.log(message.score);
+
             $.ajax({
                 type: 'POST',
                 url: '/playGame/{{ game.id }}',
