@@ -28,7 +28,7 @@ def register(request):
                 
             user_authenticated = authenticate(username=username, password=password)
             login(request, user_authenticated)
-            return redirect('../../gameLibrary/')
+            return redirect('../../')
     else:
         form = MyUserCreationForm()
     return render(request, 'registration/register.html', {'form' : form})
