@@ -8,6 +8,7 @@
     {% if game not in owned_game_list %}
     <h5 class="card-title">{{ game.name }}</h5>
     <p class="card-text">{{ game.description }}</p>
+    <p class="card-text">{{ game.price }}</p>
     <a href="{% url 'gameLibrary:buyGame' game.id %}" class="btn btn-primary">Buy Game</a>
     {% endif %}
 </div> 
