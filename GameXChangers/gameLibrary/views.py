@@ -106,35 +106,35 @@ def is_developer(user):
 @login_required
 @user_passes_test(is_developer, login_url='/gameLibrary')
 def addGame(request):
-    # if user posts through the form
-    if request.method == 'POST':
-        form = GameForm(request.POST)
-        context = {'form':form}
-        if form.is_valid():
-            game = form.save(commit=False)
-            game.developer = request.user
-            game.save()
 
-            # We also want the user to be able to play the game that she added
-            newOwnedGame = OwnedGame(player=request.user, game=game)
-            newOwnedGame.save()
-            # If succesful until here, redirect user to their own game folder 
-            # with success message
-            messages.success(request, 'Successfully added the game')
-            return redirect('/developedGames')
-    # in case of get request, that means when user comes to page first time
-    elif request.method == 'GET':
-        form = GameForm()
-        context = {'form':form}
-        return render(request, 'gameLibrary/addGame.html', context)
-    else:
+    try:
+        # if user posts through the form
+        if request.method == 'POST':
+            form = GameForm(request.POST)
+            context = {'form':form}
+            if form.is_valid():
+                game = form.save(commit=False)
+                game.developer = request.user
+                game.save()
+
+                # We also want the user to be able to play the game that she added
+                newOwnedGame = OwnedGame(player=request.user, game=game)
+                newOwnedGame.save()
+                # If succesful until here, redirect user to their own game folder 
+                # with success message
+                messages.success(request, 'Successfully added the game')
+                return redirect('/developedGames')
+        # in case of get request, that means when user comes to page first time
+        elif request.method == 'GET':
+            form = GameForm()
+            context = {'form':form}
+            return render(request, 'gameLibrary/addGame.html', context)
+        else:
+            raise Exception('')
+    except Exception:
         messages.warning(request, "Adding the game didn't go through")
         context = {}
         return render(request, 'gameLibrary/addGame.html', context)
-        
-
-    return render(request, 'gameLibrary/addGame.html', context)
-
 
 def api(request):
 
