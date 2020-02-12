@@ -18,4 +18,5 @@ urlpatterns = [
     path('api/', views.api, name='api'),
     path('success/', views.success, name='success'),
     path('error/', views.error, name='error'),
+    path('preview/<int:game_id>', views.preview, name='preview')
 ]
