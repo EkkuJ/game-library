@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 
@@ -15,7 +16,9 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container">
-            <a class="navbar-brand" href="/"><b>Game X Changers</b></a>
+            <a class="navbar-brand" href="/">
+                <img src="{% static 'gameLibrary/images/x.jpg' %}" width="50px" height="50px">
+                <b>Game X Changers</b></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                 aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
