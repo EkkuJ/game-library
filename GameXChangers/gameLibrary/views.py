@@ -159,13 +159,17 @@ def removeGame(request, game_id):
     try:
         # We get the game from ownedgames with the users id and given game_id.
         # this must be done to all the ownedgame objects
-        owned_game = OwnedGame.objects.get(player=request.user, game=game_id)
-        # If there is no such ownedGame, the next line will throw a Game.DoesNotExist.
-        game = owned_game.game
+        # owned_games = OwnedGame.objects.get(player=request.user, game=game_id)
+        owned_game_objects = list(filter(lambda x: x.game.id == game_id, OwnedGame.objects.all()))
+        # If there is no such ownedGame, the next line will throw a Game.DoesNotExist. Shouldn't happen though
+        game = owned_game_objects[0].game
         # If the user is the developer, they can delete the game
         if game.developer == request.user:
-            owned_game.delete()
             game.delete()
+            # we delete the ownedGame object from all users
+            for x in owned_game_objects:
+                x.delete()
+            owned_game_objects_after = list(filter(lambda x: x.game.id == game_id, OwnedGame.objects.all()))
             messages.success(request, 'Successful removal of the game')
         else:
             raise Exception('')
