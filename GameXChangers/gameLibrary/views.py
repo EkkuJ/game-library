@@ -192,25 +192,20 @@ def modifyGame(request, game_id):
 @login_required
 @user_passes_test(is_developer, login_url='/gameLibrary')
 def gameStats(request, game_id):
-    #try:
-    if True:
+    try:
         # First get the game
         game= Game.objects.get(id=game_id)
-
-        # The amount how many people have bought this game:
-        #amount = len(OwnedGame.objects.all().get(game_id=game_id))
         listOfGames = list(filter(lambda x: x.game.id == game_id, OwnedGame.objects.all()))
+        # The amount how many people have bought this game:
         amount = len(listOfGames)
-        # print(amount)
-
-        context = {'amount':amount}
-        
-        
-    #except Exception:
-     #   context={}
-      #  messages.warning(request,"The game stats search didn't go through")
-       
-
+        # The list of all timestamp-player pairs
+        timestampList = []
+        for x in listOfGames:
+            timestampList.append( str(x.bought_at) +' : ' + str(x.player))
+        context = {'amount':amount, 'timestampList':timestampList } 
+    except Exception:
+        context={}
+        messages.warning(request,"The game stats search didn't go through.")
     return render(request, 'gameLibrary/gameStats.html', context)
 
 
