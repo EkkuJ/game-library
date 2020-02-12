@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 class="text-center mb-3">Game Stats</h1>
+<a>{{name}}</a>
+<div class="container">
+    <a>Total amount of purhases: {{amount}}</a>
+    {% for stamp in timestampList %}
+    <li>{{ stamp }}</li>
+    {% endfor %}
+</div>
+{% endblock %}
