@@ -61,7 +61,6 @@ def playGame(request, game_id):
 
             try:
                 obj = OwnedGame.objects.get(player=request.user, game=game_id)
-                print(request.POST['state'])
                 obj.progress = request.POST['state']
                 obj.save()
                 return JsonResponse({'status':'Success', 'msg': 'progress save successfully'})
@@ -82,6 +81,14 @@ def playGame(request, game_id):
         return Http404("Request not found")
 
     return render(request, 'gameLibrary/playGame.html', context)
+
+def preview(request, game_id):
+
+    game = Game.objects.get(id=game_id)
+    owned_game_objects = list(filter(lambda x: x.game.id == game_id, OwnedGame.objects.all()))
+    context = {'game': game, 'ownedGames': owned_game_objects}
+
+    return render(request, 'gameLibrary/preview.html', context)
 
 def is_developer(user):
     boolvalue = user.groups.filter(name='Developer').exists()

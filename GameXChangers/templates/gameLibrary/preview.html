@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container" style="margin-top: 30px;">
+    <h3>Preview for {{ game.name }}</h3>
+    <h6>{{ game.description }}</h6>
+    {% if not user.is_authenticated %}
+        <h5>Login to continue</h5>
+        <a href="/authentication/login/" role="button" class="btn btn-primary">Log In</a>
+    {% endif %}
+
+    <div class="media-body" style="padding-top: 20px;"></div>
+    <div class="media-body"
+        style="padding-left: 10px; padding-top: 15px; background-color: lightgray; border-radius: 10px;">
+        <h3 class="mt-0">Highscores</h3>
+        {% if ownedGames %}
+        {% for owned_game in ownedGames %}
+        <span class="card-body">
+            <h6>{{ owned_game.player.username }}
+                <span class="badge badge-secondary">{{ owned_game.highscore }}
+                </span></h6>
+        </span>
+        {% endfor %}
+        {% else %}
+        <p>No scores yet</p>
+        {% endif %}
+    </div>
+</div>
+</div>
+
+
+{% endblock %}
