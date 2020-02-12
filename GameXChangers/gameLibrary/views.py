@@ -32,7 +32,6 @@ def myGames(request):
     context = {'my_games': my_games}
     return render(request, 'gameLibrary/myGames.html', context)
 
-
 # Show gaming view for specific game
 @login_required
 def playGame(request, game_id):
@@ -82,6 +81,19 @@ def playGame(request, game_id):
         return Http404("Request not found")
 
     return render(request, 'gameLibrary/playGame.html', context)
+
+# view for social media sharing
+def advertiseGame(request, game_id):
+    print
+    try:
+        game = filter(lambda x: x.game.id == game_id, Game.objects.all())[0]
+        print(Game.objects.all()[0].id)
+        print(game)
+        context={'game': game}
+    except:
+        raise Http404("Progress not found")
+
+    return render(request, 'gameLibrary/advertiseGame.html', context)
 
 def is_developer(user):
     boolvalue = user.groups.filter(name='Developer').exists()
