@@ -1,3 +1,4 @@
+{% load static %}
 <!doctype html>
 <html lang="en">
 
@@ -10,71 +11,89 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Game X Changers</title>
+    <meta property="og:title" content="Game X Changers" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://game-x-changers.herokuapp.com/" />
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-            <a class="navbar-brand" href="/"><b>Game X Changers</b></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav mr-auto">
-                    
-                    <li class="nav-item">
-                        <a class="nav-link" href="/browseGames/">Browse Games</a>
-                    </li>
+    <div class="content">
+        <div class="content-inside" style="padding-bottom: 50px;">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container">
+                    <a class="navbar-brand" href="/">
+                        <img src="{% static 'gameLibrary/images/x.jpg' %}" width="50px" height="50px"
+                            style="margin-right: 10px;">
+                        <b>Game X Changers</b></a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav mr-auto">
 
-                    {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/myGames/">My Games</a>
-                    </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/browseGames/">Browse Games</a>
+                            </li>
 
-                    {% ifequal user.groups.all.0.name "Developer" %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="/addGame/">Add Game</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/developedGames/">My Developed Games</a>
-                    </li>
-                    {% endifequal %}
-                    
-                    {% endif %}
+                            {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/myGames/">My Games</a>
+                            </li>
 
-                    
-                </ul>
-                
-                {% if user.is_authenticated %}
-                <div class="nav-item">
-                    <a href="/authentication/logout/" role ="button" class="btn btn-outline-dark">Log Out</a>
+                            {% ifequal user.groups.all.0.name "Developer" %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="/addGame/">Add Game</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/developedGames/">My Developed Games</a>
+                            </li>
+                            {% endifequal %}
+
+                            {% endif %}
+
+
+                        </ul>
+
+                        {% if user.is_authenticated %}
+                        <div class="nav-item">
+                            <a href="/authentication/logout/" role="button" class="btn btn-outline-dark">Log Out</a>
+                        </div>
+
+                        {% else %}
+                        <div class="nav-item">
+                            <a href="/authentication/login/" role="button" class="btn btn-outline-dark">Log In</a>
+                        </div>
+                        {% endif %}
+
+                    </div>
                 </div>
+            </nav>
 
-                {% else %}
-                <div class="nav-item">
-                    <a href="/authentication/login/" role="button" class="btn btn-outline-dark">Log In</a>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                    {% endfor %}
+            </ul>
+            {% endif %}
+
+            <div class="container">
+                <div class="col-md-6 m-auto">
+                    {% block content %}{% endblock %}
                 </div>
-                {% endif %}
-
             </div>
         </div>
-    </nav>
+        <!-- Footer -->
+        <footer class="page-footer font-small blue" style="background-color: lightblue; height: 50px; margin-top: -50px;">
 
-    {% if messages %}
-    <ul class="messages">
-    {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-    </ul>
-    {% endif %}
-    
-    <div class="container">
-        <div class="col-md-6 m-auto">
-            {% block content %}{% endblock %}
-        </div>
+            <div class="footer-copyright text-center py-3">
+                <p>© 2020 Copyright: Game X Changers</p>
+            </div>
+
+        </footer>
+        <!-- Footer -->
     </div>
-    
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
