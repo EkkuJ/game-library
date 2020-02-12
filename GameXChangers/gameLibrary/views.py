@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Game, OwnedGame
 from django.contrib.auth.models import User
 from .forms import GameForm
@@ -82,7 +82,6 @@ def playGame(request, game_id):
         return Http404("Request not found")
 
     return render(request, 'gameLibrary/playGame.html', context)
-
 
 def is_developer(user):
     boolvalue = user.groups.filter(name='Developer').exists()
