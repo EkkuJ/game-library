@@ -83,7 +83,6 @@ def playGame(request, game_id):
 
     return render(request, 'gameLibrary/playGame.html', context)
 
-
 def is_developer(user):
     boolvalue = user.groups.filter(name='Developer').exists()
     # print(boolvalue)

@@ -50,7 +50,10 @@
                     'csrfmiddlewaretoken': "{{  csrf_token  }}",
                     score: message.score
                 },
-                success: function () { }
+                success: function () {
+                    // refresh the page when a new highscore is submitted
+                    location.reload()
+                 }
             });
 
         } else if (message.messageType == "SAVE") {
