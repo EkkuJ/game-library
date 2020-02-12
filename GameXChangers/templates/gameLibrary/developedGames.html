@@ -10,6 +10,7 @@
     <a href="{% url 'gameLibrary:playGame' game.id %}" class="btn btn-primary">Play Game</a>
     <a href="{% url 'gameLibrary:removeGame' game.id %}" class="btn btn-primary">Remove Game</a>
     <a href="{% url 'gameLibrary:modifyGame' game.id %}" class="btn btn-primary">Modify Game</a>
+    <a href="{% url 'gameLibrary:modifyGame' game.id %}" class="btn btn-primary">Game Statistics</a>
 </div> 
 {% endfor %}
 {% else %}

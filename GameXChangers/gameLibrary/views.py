@@ -190,6 +190,18 @@ def modifyGame(request, game_id):
     # form = ModifyForm()
     return render(request, 'gameLibrary/modifyGame.html', context)
 
+@login_required
+@user_passes_test(is_developer, login_url='/gameLibrary')
+def gameStats(request, game_id):
+    try:
+        
+        
+    except Exception:
+       
+
+    return render(request, 'gameLibrary/developedGames.html', context)
+
+
 
 # player id found in request.user
 @login_required
