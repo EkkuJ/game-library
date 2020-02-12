@@ -9,6 +9,8 @@ from django.http import HttpResponse
 from .paymentHelpers import getChecksum, getPid, getSid, getIncomingChecksum
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
+from itertools import chain
+
 
 # Create your views here.
 
@@ -19,8 +21,15 @@ def home(request):
 
 # the buygame feature will be implemented here
 def browseGames(request):
-
+    #get the possible search data from the request
+    search = request.GET.get('search')
     game_list = Game.objects.all()
+    # change the gamelist to match the search results
+    if search:
+        nameResult = Game.objects.filter(name__contains=search)
+        descResult = Game.objects.filter(description__contains=search)
+        game_list = list(chain(nameResult, descResult))
+    
     owned_game_objects = list(filter(lambda x: x.player == request.user, OwnedGame.objects.all()))
     owned_game_list = list(map(lambda x: x.game, owned_game_objects))
     context = {'game_list': game_list, 'owned_game_list': owned_game_list}

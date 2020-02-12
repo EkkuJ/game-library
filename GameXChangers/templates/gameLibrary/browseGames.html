@@ -2,6 +2,10 @@
 
 {% block content %}
 <h1 class="text-center mb-3">All Games</h1>
+<form class="search" method="GET" action="" >
+    <input class="search" type="search" name="search"> 
+    <button class="search" type="submit"> Search </button>
+</form>
 {% if game_list %}
 {% for game in game_list %}
 <div class="card-body">
