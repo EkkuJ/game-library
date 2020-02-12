@@ -103,11 +103,6 @@ def is_developer(user):
     # print(boolvalue)
     return boolvalue
 
-"""def ownsGame(user, game_id):
-    boolvalue = user.groups.filter(name='Developer').exists()
-    # print(boolvalue)
-    return boolvalue"""
-
 
 @login_required
 @user_passes_test(is_developer, login_url='/gameLibrary')
@@ -163,6 +158,7 @@ def developedGames(request):
 def removeGame(request, game_id):
     try:
         # We get the game from ownedgames with the users id and given game_id.
+        # this must be done to all the ownedgame objects
         owned_game = OwnedGame.objects.get(player=request.user, game=game_id)
         # If there is no such ownedGame, the next line will throw a Game.DoesNotExist.
         game = owned_game.game
@@ -244,23 +240,36 @@ def gameStats(request, game_id):
     return render(request, 'gameLibrary/gameStats.html', context)
 
 
+class HasAlready(Exception):
+    pass
 
 # player id found in request.user
 @login_required
 def buyGame(request, game_id):
-    # user
-    # games
+    context = {}
     try:
-        player = request.user
+        # Only let the user buy games if they dont have it already
         game = Game.objects.get(id=game_id)
-        pid = getPid(player, game)
-        sid = getSid()
-        checksum = getChecksum(pid, sid, game.price)
-        context = {'game': game, 'pid': pid, 'sid': sid, 'checksum': checksum, 'player': player}
+        player = request.user
+        #check how many ownedgame objects there are for player and game match
+        hasGame = OwnedGame.objects.all().filter(player=player, game=game_id)
+        # if zero...
+        if len(hasGame)==0:
+            pid = getPid(player, game)
+            sid = getSid()
+            checksum = getChecksum(pid, sid, game.price)
+            context = {'game': game, 'pid': pid, 'sid': sid, 'checksum': checksum, 'player': player, 'hasGame':False}
+            return render(request, 'gameLibrary/buyGame.html', context)
+        # if more than zero
+        else:
+            raise HasAlready
+    except HasAlready:
+        messages.warning(request, 'You already have the game you tried to purchase')
+        context = {'hasGame':True}
         return render(request, 'gameLibrary/buyGame.html', context)
-    except Exception:
-        messages.warning(request, 'Failed to remove the game')
-
+    except Exception as e:
+        messages.warning(request, 'Failed to buy the game')
+    return render(request, 'gameLibrary/buyGame.html', context)
 
 @login_required
 def success(request):
