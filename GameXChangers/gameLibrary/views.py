@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Game, OwnedGame
 from django.contrib.auth.models import User
-from .forms import GameForm
+from .forms import GameForm, ModifyForm
 from django.http import JsonResponse
 import json
 from django.http import HttpResponse
@@ -154,6 +154,41 @@ def removeGame(request, game_id):
     context = {'my_games': my_games}
 
     return render(request, 'gameLibrary/developedGames.html', context)
+
+# also must be the developer of the game.
+@login_required
+@user_passes_test(is_developer, login_url='/gameLibrary')
+def modifyGame(request, game_id):
+    try:
+    
+        # First we get the game to check if user is the developer of that game
+        gameFetched = Game.objects.get(id=game_id)
+        # print(request.method == 'POST')
+        if gameFetched.developer == request.user:
+            form = ModifyForm(request.POST)
+            if form.is_valid():
+                game = form.save(commit=False)
+                # The next lines will not be affected by the form
+                game.developer = request.user
+                game.id = game_id
+                game.name = gameFetched.name
+
+                # If the form has blank spaces,we dont want to change the game
+                if game.url == '':
+                    game.url = gameFetched.url
+                if game.price == None:
+                    game.price = gameFetched.price
+                if game.description == '':
+                    game.description = gameFetched.description
+                game.save()
+                #messages.success(request, 'Successfully modified the game')
+                context = {'form':form, 'name':game.name}
+    except Exception:
+        # messages.warning(request, 'Failed to modify the game' )
+        context = {}
+    
+    # form = ModifyForm()
+    return render(request, 'gameLibrary/modifyGame.html', context)
 
 
 # player id found in request.user
