@@ -41,7 +41,6 @@ def myGames(request):
     context = {'my_games': my_games}
     return render(request, 'gameLibrary/myGames.html', context)
 
-
 # Show gaming view for specific game
 @login_required
 def playGame(request, game_id):

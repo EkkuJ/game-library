@@ -25,17 +25,13 @@
                 {% endif %}
             </div>
         </div>
-        <!-- Facebook-share button -->
         <div>
-            <div class="fb-share-button" data-href="https://game-x-changers.herokuapp.com/preview/0" data-layout="button" data-size="large"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fgame-x-changers.herokuapp.com%2Fpreview%2F1&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+            <a href="{% url 'gameLibrary:preview' game.id %}" class="btn btn-primary">Share</a>
         </div>
     </div>
 </div>
 
-<div id="fb-root"></div>
-<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v6.0&appId=284918521754"></script>
 
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
     var myFrame = document.getElementById('myFrame').contentWindow;
     window.onmessage = function (event) {
