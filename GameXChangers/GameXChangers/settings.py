@@ -23,13 +23,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'kzx8r80!wvt(rd_ie=2dz7oviwsdmovl-pwdb#y*e$^0*-fy1c'
 PAYMENT_SECRET = os.environ.get('PAYMENT_SECRET')
 PAYMENT_SID = os.environ.get('PAYMENT_SID')
-# print(PAYMENT_SECRET)
-# SECRET_KEY = os.environ.get('SECRET_KEY')
+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# Use Django's Console Backend as the email-backend.
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # Application definition
 
@@ -129,7 +130,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # The URL to use when referring to static files (where they will be served from)
 STATIC_URL = '/static/'
 
-LOGIN_REDIRECT_URL = '/gameLibrary/'
+LOGIN_REDIRECT_URL = '/'
 
 # Heroku: Update database configuration from $DATABASE_URL.
 # Simplified static file serving.
