@@ -131,6 +131,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
+LOGIN_URL = '/authentication/login'
 
 # Heroku: Update database configuration from $DATABASE_URL.
 # Simplified static file serving.
