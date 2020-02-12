@@ -193,13 +193,26 @@ def modifyGame(request, game_id):
 @login_required
 @user_passes_test(is_developer, login_url='/gameLibrary')
 def gameStats(request, game_id):
-    try:
+    #try:
+    if True:
+        # First get the game
+        game= Game.objects.get(id=game_id)
+
+        # The amount how many people have bought this game:
+        #amount = len(OwnedGame.objects.all().get(game_id=game_id))
+        listOfGames = list(filter(lambda x: x.game.id == game_id, OwnedGame.objects.all()))
+        amount = len(listOfGames)
+        # print(amount)
+
+        context = {'amount':amount}
         
         
-    except Exception:
+    #except Exception:
+     #   context={}
+      #  messages.warning(request,"The game stats search didn't go through")
        
 
-    return render(request, 'gameLibrary/developedGames.html', context)
+    return render(request, 'gameLibrary/gameStats.html', context)
 
 
 
