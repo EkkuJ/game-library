@@ -201,7 +201,7 @@ def gameStats(request, game_id):
         # The list of all timestamp-player pairs
         timestampList = []
         for x in listOfGames:
-            timestampList.append( str(x.bought_at) +' : ' + str(x.player))
+            timestampList.append( str(x.bought_at.date()) +' : ' + str(x.player))
         context = {'amount':amount, 'timestampList':timestampList } 
     except Exception:
         context={}
