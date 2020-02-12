@@ -112,22 +112,35 @@ def is_developer(user):
 @login_required
 @user_passes_test(is_developer, login_url='/gameLibrary')
 def addGame(request):
-    if request.method == 'POST':
-        form = GameForm(request.POST)
-        if form.is_valid():
-            game = form.save(commit=False)
-            game.developer = request.user
-            game.save()
 
-            # We also want the user to be able to play the game that she added
-            newOwnedGame = OwnedGame(player=request.user, game=game)
-            newOwnedGame.save()
+    try:
+        # if user posts through the form
+        if request.method == 'POST':
+            form = GameForm(request.POST)
+            context = {'form':form}
+            if form.is_valid():
+                game = form.save(commit=False)
+                game.developer = request.user
+                game.save()
 
-    else:
-        form = GameForm()
-
-    return render(request, 'gameLibrary/addGame.html', {'form': form})
-
+                # We also want the user to be able to play the game that she added
+                newOwnedGame = OwnedGame(player=request.user, game=game)
+                newOwnedGame.save()
+                # If succesful until here, redirect user to their own game folder 
+                # with success message
+                messages.success(request, 'Successfully added the game')
+                return redirect('/developedGames')
+        # in case of get request, that means when user comes to page first time
+        elif request.method == 'GET':
+            form = GameForm()
+            context = {'form':form}
+            return render(request, 'gameLibrary/addGame.html', context)
+        else:
+            raise Exception('')
+    except Exception:
+        messages.warning(request, "Adding the game didn't go through")
+        context = {}
+        return render(request, 'gameLibrary/addGame.html', context)
 
 def api(request):
 
@@ -180,13 +193,15 @@ def modifyGame(request, game_id):
         # print(request.method == 'POST')
         if gameFetched.developer == request.user:
             form = ModifyForm(request.POST)
-            if form.is_valid():
-                game = form.save(commit=False)
-                # The next lines will not be affected by the form
-                game.developer = request.user
-                game.id = game_id
-                game.name = gameFetched.name
-
+            game = form.save(commit=False)
+            # The next lines will not be affected by the form
+            game.developer = request.user
+            game.id = game_id
+            game.name = gameFetched.name
+            context = {'form':form, 'name':game.name}
+            # if user is posting
+            if form.is_valid() and request.method == 'POST':
+                
                 # If the form has blank spaces,we dont want to change the game
                 if game.url == '':
                     game.url = gameFetched.url
@@ -195,14 +210,19 @@ def modifyGame(request, game_id):
                 if game.description == '':
                     game.description = gameFetched.description
                 game.save()
-                #messages.success(request, 'Successfully modified the game')
-                context = {'form':form, 'name':game.name}
+                messages.success(request, 'Successfully modified the game')
+                return redirect('/developedGames')
+            # if user just came to the site
+            elif request.method == 'GET':
+                return render(request, 'gameLibrary/modifyGame.html', context)
+            # failure
+            else:
+                raise Exception('')
     except Exception:
         # messages.warning(request, 'Failed to modify the game' )
         context = {}
-    
-    # form = ModifyForm()
-    return render(request, 'gameLibrary/modifyGame.html', context)
+        messages.warning(request, 'Failed to modify the game' )
+        return render(request, 'gameLibrary/modifyGame.html', context)
 
 @login_required
 @user_passes_test(is_developer, login_url='/gameLibrary')
