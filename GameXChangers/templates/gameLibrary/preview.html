@@ -8,7 +8,7 @@
     <h6>{{ game.description }}</h6>
     {% if user.is_authenticated %}
 
-        {% post_to_facebook "Check out this game: {{ game.name }}" object_or_url "Post to Facebook!" %}
+        {% post_to_facebook object_or_url "Post to Facebook!" %}
 
     {% else %}
         <h5>Login to continue</h5>
