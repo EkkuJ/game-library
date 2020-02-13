@@ -3,6 +3,7 @@
 {% block content %}
 <div class="container" style="padding-top: 30px;">
     <div class="gameView" style="display: inline-flex;">
+        {% if not hasGame %}
         <div class="media-body" style="padding-left: 10px;">
             <h5 class="mt-0">{{ game.name }}</h5>
             <p>{{ game.description }}</p>
@@ -21,6 +22,7 @@
           </form>
         {% else %}
         <p>You must log in in order to buy games</p>
+        {% endif %}
         {% endif %}
     </div>
 </div>
