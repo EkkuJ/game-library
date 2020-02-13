@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load social_share %}
 
 {% block content %}
 
@@ -6,7 +7,9 @@
     <h3>Preview for {{ game.name }}</h3>
     <h6>{{ game.description }}</h6>
     {% if user.is_authenticated %}
-        {% post_to_telegram "Try this game: {{game.name}}" <object_or_url> %}
+
+        {% post_to_facebook {{ game.name }} object_or_url "Post to Facebook!" %}
+
     {% else %}
         <h5>Login to continue</h5>
         <a href="/authentication/login/" role="button" class="btn btn-primary">Log In</a>
