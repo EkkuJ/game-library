@@ -1,5 +1,5 @@
 from django.http import HttpResponse
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login, logout as auth_logout, authenticate
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
@@ -11,10 +11,11 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.contrib import messages
 from django.views.generic import View, UpdateView
-from .forms import MyUserCreationForm
+from .forms import MyUserCreationForm, GroupChoiceForm
 from .tokens import account_activation_token
 
 # Create your views here.
+
 
 def register(request):
     if request.method == 'POST':
@@ -45,7 +46,7 @@ def register(request):
             return redirect('login')
     else:
         form = MyUserCreationForm()
-    return render(request, 'registration/register.html', {'form' : form})
+    return render(request, 'registration/register.html', {'form': form})
 
 def activate(request, uidb64, token):
 
@@ -54,7 +55,7 @@ def activate(request, uidb64, token):
             #uidb64 = request.GET.get('uidb64', '')
             uid = force_text(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
-        except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        except (TypeError, ValueError, OverflowError):
             user = None
 
         if user is not None and account_activation_token.check_token(user, token):
@@ -69,7 +70,17 @@ def activate(request, uidb64, token):
             return redirect('register')
 
 
+def group_choice(request):
+
+    if request.method == 'POST':
+        user_group = request.POST.get('sign_up_as')
+        request.session['group'] = user_group
+        return redirect(reverse('social:complete'))
+    else:
+        form = GroupChoiceForm()
+    return render(request, 'registration/group_choice.html', {'form': form})
+
+
 def logout(request):
     auth_logout(request)
     return render(request, 'registration/logout.html')
-
