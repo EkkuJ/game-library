@@ -32,8 +32,13 @@ ALLOWED_HOSTS = []
 # Use Django's Console Backend as the email-backend.
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-# Application definition
+# In addition to default, use Facebook authentication
+AUTHENTICATION_BACKENDS = [
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+]
 
+# Application definition
 INSTALLED_APPS = [
     'gameLibrary.apps.GamelibraryConfig',
     'authentication.apps.AuthenticationConfig',
@@ -43,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -132,6 +138,28 @@ STATIC_URL = '/static/'
 
 LOGIN_REDIRECT_URL = '/'
 LOGIN_URL = '/authentication/login'
+
+# From Facebook application
+SOCIAL_AUTH_FACEBOOK_KEY = 120891162660291        # App ID
+SOCIAL_AUTH_FACEBOOK_SECRET = 'fea4c359ce2422c3b6b81521cd3b8fd8' # App Secret
+
+# Special variable carried within the authentication session that defines
+# the group the user belongs to
+SOCIAL_AUTH_FIELDS_STORED_IN_SESSION = ['group']
+
+# Customized authentication pipeline that stops for the group choice
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
+    'GameXChangers.pipeline.partial.save_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
 
 # Heroku: Update database configuration from $DATABASE_URL.
 # Simplified static file serving.
