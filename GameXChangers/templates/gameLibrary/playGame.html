@@ -7,12 +7,11 @@
             <h1>{{ game.name }}</h1>
         </div>
         <p>{{ game.description }}</p>
-        <div class="container">
-            <iframe id="myFrame" src={{ game.url }}>
-            </iframe>
-        </div>
+        <iframe id="myFrame" src={{ game.url }}>
+        </iframe>
         <div class="media-body" style="padding-top: 20px;">
-            <div class="media-body" style="padding-left: 10px; padding-top: 15px; background-color: lightgray; border-radius: 10px;">
+            <div class="media-body"
+                style="padding-left: 10px; padding-top: 15px; background-color: lightgray; border-radius: 10px;">
                 <h3 class="mt-0">Highscores</h3>
                 {% if owned_game_objects %}
                 {% for owned_game in owned_game_objects %}
@@ -45,6 +44,13 @@
             $("#myFrame")[0].style.width = width;
             $("#myFrame")[0].style.height = height;
 
+            // screen is not responsive when the iframe is wider than screen
+            if ($(window).width() < message.options.width + 50) {
+                var contentSize = (message.options.width + 70).toString().concat("px")
+                $(".content")[0].style.width = contentSize;
+
+            }
+
         } else if (message.messageType == "SCORE") {
             console.log(message.score);
 
@@ -58,7 +64,7 @@
                 success: function () {
                     // refresh the page when a new highscore is submitted
                     location.reload()
-                 }
+                }
             });
 
         } else if (message.messageType == "SAVE") {
