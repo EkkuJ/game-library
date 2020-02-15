@@ -1,14 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="hero-unit" id="content" style="padding-top: 30px;" >
+<div class="hero-unit" id="content">
     <div class="gameView">
         <div class="page-header">
             <h1>{{ game.name }}</h1>
         </div>
         <p>{{ game.description }}</p>
-        <iframe id="myFrame" src={{ game.url }}>
-        </iframe>
+        <div class="container">
+            <iframe id="myFrame" src={{ game.url }}>
+            </iframe>
+        </div>
         <div class="media-body" style="padding-top: 20px;">
             <div class="media-body" style="padding-left: 10px; padding-top: 15px; background-color: lightgray; border-radius: 10px;">
                 <h3 class="mt-0">Highscores</h3>
