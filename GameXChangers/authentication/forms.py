@@ -14,3 +14,7 @@ class MyUserCreationForm(auth_forms.UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'sign_up_as']
 
+class GroupChoiceForm(forms.Form):
+    sign_up_as = forms.ChoiceField(choices=SIGN_IN_CHOICES, label='Sign up as:')
+    class Meta:
+        fields = ['sign_up_as']
