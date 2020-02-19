@@ -8,14 +8,13 @@
     <h6>{{ game.description }}</h6>
     {% if user.is_authenticated %}
 
-        {% post_to_facebook object_or_url "Post to Facebook!" %}
+    {% post_to_facebook  "Post to Facebook!" %}
 
     {% else %}
-        <h5>Login to continue</h5>
-        <a href="/authentication/login/" role="button" class="btn btn-primary">Log In</a>
+    <h5>Login to continue</h5>
+    <a href="/authentication/login/" role="button" class="btn btn-primary">Log In</a>
     {% endif %}
 
-    <div class="media-body" style="padding-top: 20px;"></div>
     <div class="media-body"
         style="padding-left: 10px; padding-top: 15px; background-color: lightgray; border-radius: 10px;">
         <h3 class="mt-0">Highscores</h3>
@@ -31,7 +30,6 @@
         <p>No scores yet</p>
         {% endif %}
     </div>
-</div>
 </div>
 
 

@@ -44,7 +44,7 @@
             $("#myFrame")[0].style.width = width;
             $("#myFrame")[0].style.height = height;
 
-            // screen is not responsive when the iframe is wider than screen
+            // screen is not responsive when the iframe is wider than the screen
             if ($(window).width() < message.options.width + 50) {
                 var contentSize = (message.options.width + 70).toString().concat("px")
                 $(".content")[0].style.width = contentSize;
