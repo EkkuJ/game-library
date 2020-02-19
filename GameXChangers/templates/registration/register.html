@@ -18,12 +18,10 @@
             <button class="btn btn-outline-info" type="submit">Sign Up</button>
         </form>
     </div>
-    <div>
+    <div style="margin: 20px;">
         <h4>Or</h4>
-        <button class="btn btn-outline-info">
-            <a href="{% url 'social:begin' 'facebook' %}?group={{ 'None' }}">Sign Up with Facebook</a>
-        </button>
-        
+        <a href="{% url 'social:begin' 'facebook' %}?group={{ 'None' }}" style="color: mediumblue;">Authenticate with
+            Facebook</a>
     </div>
     <div class="border-top pt-3">
         <small class="input-muted">
