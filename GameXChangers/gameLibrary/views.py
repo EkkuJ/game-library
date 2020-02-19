@@ -52,7 +52,7 @@ def playGame(request, game_id):
             game = users_game.game
             context = {'game': game, 'owned_game_objects': owned_game_objects, 'users_game': users_game,}
         except Game.DoesNotExist:
-            raise Http404("Game does not exist")
+            raise HttpResponse(status=404)
     elif request.method == 'POST':
         if 'score' in request.POST:
 
@@ -63,7 +63,7 @@ def playGame(request, game_id):
                     obj.save()
                 return JsonResponse({'status': 'Success', 'msg': ' highscore save successfully'})
             except:
-                raise Http404("Game not updated")
+                raise HttpResponse(status=404)
 
         elif 'state' in request.POST:
 
@@ -73,7 +73,7 @@ def playGame(request, game_id):
                 obj.save()
                 return JsonResponse({'status':'Success', 'msg': 'progress save successfully'})
             except:
-                raise Http404("GameState not saved")
+                raise HttpResponse(status=404)
 
         elif 'getProgress' in request.POST:
 
@@ -83,10 +83,10 @@ def playGame(request, game_id):
                 return HttpResponse(progress)
 
             except:
-                raise Http404("Progress not found")
+                raise HttpResponse(status=404)
 
     else:
-        return Http404("Request not found")
+        return HttpResponse(status=404)
 
     return render(request, 'gameLibrary/playGame.html', context)
 
