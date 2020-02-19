@@ -2,27 +2,31 @@
 
 {% block content %}
 <div>
-    <h2>Sign up Form</h2>
-    <form method="post">
-        {% csrf_token %}
-        {% for field in form %}
-        <p>
-            {{ field.label_tag }}<br>
-            {{ field }}
-            {% if field.help_text %}
-            <small style="color: grey">{{ field.help_text }}</small>
-            {% endif %}
-            {% for error in field.errors %}
-            <p style="color: red">{{ error }}</p>
+    <div>
+        <h2>Sign Up</h2>
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <p>
+                {{ field.label_tag }}<br>
+                {{ field }}
+                {% for error in field.errors %}
+                <p style="color: red">{{ error }}</p>
+                {% endfor %}
+            </p>
             {% endfor %}
-        </p>
-        {% endfor %}
-        <button class="btn btn-outline-info" type="submit">Sign up</button>
-    </form>
+            <button class="btn btn-outline-info" type="submit">Sign Up</button>
+        </form>
+    </div>
+    <div style="margin: 20px;">
+        <h4>Or</h4>
+        <a href="{% url 'social:begin' 'facebook' %}?group={{ 'None' }}" style="color: mediumblue;">Authenticate with
+            Facebook</a>
+    </div>
     <div class="border-top pt-3">
-         <small class="input-muted">
+        <small class="input-muted">
             Already Have an Account? <a href="../login" class="ml-2">Sign In</a>
-         </small>
+        </small>
     </div>
 </div>
 {% endblock %}
