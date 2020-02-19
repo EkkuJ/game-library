@@ -1,16 +1,22 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div>
+    <h2>Home Page</h2>
     <div>
-        <h1>Home Page</h1>
-        <div>
-            <p>
-                Welcome to the site. Here you can buy and play games or sell games as a developer.
-            </p>
-        </div>
-        <div>
-            <h2>Most popular game</h2>
+        <p>
+            Welcome to the site. Here you can buy and play games or sell games as a developer.
+        </p>
+    </div>
+    <div style="margin-top: 25px;">
+        <h4>Most popular game</h4>
+        <div class="media-body"
+            style="padding-left: 15px; padding-top: 15px; padding-bottom: 20px; background-color: lightgrey; border-radius: 10px;">
+            <h3 class="mt-0">{{ name }}</h3>
+            <p>{{ description }}</p>
+            <a href="{% url 'gameLibrary:browseGames' %}" class="btn btn-primary">Browse Games</a>
         </div>
     </div>
+</div>
 
 {% endblock %}

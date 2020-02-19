@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Game X Changers</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito|Saira+Semi+Condensed&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -21,7 +22,7 @@
                     <a class="navbar-brand" href="/">
                         <img src="{% static 'gameLibrary/images/x.jpg' %}" width="50px" height="50px"
                             style="margin-right: 10px;">
-                        <b>Game X Changers</b></a>
+                        <b id="title">Game X Changers</b></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -106,9 +107,14 @@
 <style>
     html, body, .content {
         height: 100%;
-        }
+        font-family: 'Nunito', sans-serif;
+    }
+
+    #title {
+        font-family: 'Saira Semi Condensed', sans-serif;
+    }
     .content-inside {
-        padding-bottom: 50px; 
+        margin-bottom: 50px; 
         min-height: 100%
     }
     #footer {
