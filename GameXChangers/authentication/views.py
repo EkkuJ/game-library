@@ -11,6 +11,7 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.encoding import force_bytes, force_text
 from django.contrib import messages
 from django.views.generic import View, UpdateView
+from social_django.utils import load_strategy
 from .forms import MyUserCreationForm, GroupChoiceForm
 from .tokens import account_activation_token
 
@@ -73,9 +74,11 @@ def activate(request, uidb64, token):
 def group_choice(request):
 
     if request.method == 'POST':
-        user_group = request.POST.get('sign_up_as')
-        request.session['group'] = user_group
-        return redirect(reverse('social:complete'))
+        form = GroupChoiceForm(request.POST)
+        if form.is_valid():
+            user_group = form.cleaned_data.get('sign_up_as')
+            request.session['group'] = user_group
+            return redirect('/../../social-auth/complete/facebook')
     else:
         form = GroupChoiceForm()
     return render(request, 'registration/group_choice.html', {'form': form})
