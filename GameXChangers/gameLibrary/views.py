@@ -16,7 +16,21 @@ from itertools import chain
 
 
 def home(request):
-    return render(request, 'gameLibrary/home.html')
+    games = []
+    dic = defaultdict(int)
+
+    map(lambda x: games.append(x.game), OwnedGame.objects.all())
+    
+    for game in games:
+        if game in dic:
+            dic[game] += 1
+        else:
+            dic[game] = 1
+    
+    popular_game = max(dic, key=dic.get)
+    context = {'popular_game': popular_game}
+
+    return render(request, 'gameLibrary/home.html', context)
 
 
 # the buygame feature will be implemented here
