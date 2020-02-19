@@ -17,7 +17,7 @@ from itertools import chain
 
 def home(request):
     games = []
-    dic = defaultdict(int)
+    dic = {}
 
     map(lambda x: games.append(x.game), OwnedGame.objects.all())
     

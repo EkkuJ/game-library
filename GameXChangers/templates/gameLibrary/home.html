@@ -1,16 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div>
+    <h2>Home Page</h2>
     <div>
-        <h2>Home Page</h2>
-        <div>
-            <p>
-                Welcome to the site. Here you can buy and play games or sell games as a developer.
-            </p>
-        </div>
-        <div>
-            <h4>Most popular game</h4>
+        <p>
+            Welcome to the site. Here you can buy and play games or sell games as a developer.
+        </p>
+    </div>
+    <div>
+        <h4>Most popular game</h4>
+        <div class="media-body"
+            style="padding-left: 10px; padding-top: 15px; background-color: lightred; border-radius: 10px;">
+            <h3 class="mt-0">popular_game.name</h3>
+            <p>popular_game.description</p>
         </div>
     </div>
+</div>
 
 {% endblock %}
