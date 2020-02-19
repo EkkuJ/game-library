@@ -12,23 +12,24 @@ from django.contrib import messages
 from itertools import chain
 
 
-# Create your views here.
-
-
 def home(request):
-    games = []
-    dic = {}
 
-    map(lambda x: games.append(x.game), OwnedGame.objects.all())
-    
-    for game in games:
-        if game in dic:
-            dic[game] += 1
-        else:
-            dic[game] = 1
-    
-    popular_game = max(dic, key=dic.get)
-    context = {'popular_game': popular_game}
+    dic = {}
+    games = list(map(lambda x: x.game, OwnedGame.objects.all()))
+    if len(games) > 0:
+        # get frequencies for games
+        for game in games:
+            if game in dic:
+                dic[game] += 1
+            else:
+                dic[game] = 1
+
+        # get the game with highest frequency
+        popular_game = max(dic, key=dic.get)
+        
+        context = {'name': popular_game.name, 'description': popular_game.description}
+    else:
+        context = {'name': 'No games yet', 'description': ''}
 
     return render(request, 'gameLibrary/home.html', context)
 
