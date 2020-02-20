@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django_social_share',
     'rest_framework',
     'rest_framework.authtoken',
+    'myapi.apps.MyapiConfig',
 ]
 
 MIDDLEWARE = [
@@ -157,4 +158,4 @@ if "DYNO" in os.environ:
     DEBUG = True # False in proper deployment
     ALLOWED_HOSTS = ['*']
 
-django_heroku.settings(locals())
+#django_heroku.settings(locals())
