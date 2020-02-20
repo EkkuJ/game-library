@@ -35,9 +35,3 @@ class GameApiView(APIView):
                 dict['progress'] = str(y.progress)
                 result.append(dict)        
         return Response(result)
-
-
-class OwnedViewSet(viewsets.ModelViewSet):
-    permission_classes = (IsAuthenticated,)
-    queryset = Game.objects.all()
-    serializer_class = GameSerializer
