@@ -15,10 +15,10 @@ class AutoDateTimeField(models.DateTimeField):
 
 class Game(models.Model):
     name = models.CharField(max_length=30, unique=True)
-    description = models.TextField(default='Game Description')
-    url = models.URLField(blank=True)
+    description = models.TextField(blank=False)
+    url = models.URLField(blank=False)
     highscore = models.IntegerField(default=0)
-    price = models.DecimalField(max_digits=12, default=0, decimal_places=2)
+    price = models.DecimalField(max_digits=12, blank=False, decimal_places=2)
 
     # May be more efficient to store the "player-game" -relation
     # in the User-model. To be considered

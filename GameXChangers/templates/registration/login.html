@@ -12,8 +12,17 @@
 
         {{ form.errors }}
 
-        <input type="submit" value="Login">
+        <input class="btn btn-outline-info" type="submit" value="Login">
     </form>
-    <a href ='../register/'>Register</button>
+    <div style="margin: 20px;">
+        <h4>Or</h4>
+        <a href="{% url 'social:begin' 'facebook' %}?group={{ 'None' }}" style="color: mediumblue;">Authenticate with
+            Facebook</a>
+    </div>
+    <div class="border-top pt-3">
+        <small class="input-muted">
+            Don't Have an Account? <a href="../register" class="ml-2">Sign Up</a>
+        </small>
+    </div>
 </div>
 {% endblock %}

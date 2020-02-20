@@ -12,11 +12,26 @@ from django.contrib import messages
 from itertools import chain
 
 
-# Create your views here.
-
-
 def home(request):
-    return render(request, 'gameLibrary/home.html')
+
+    dic = {}
+    games = list(map(lambda x: x.game, OwnedGame.objects.all()))
+    if len(games) > 0:
+        # get frequencies for games
+        for game in games:
+            if game in dic:
+                dic[game] += 1
+            else:
+                dic[game] = 1
+
+        # get the game with highest frequency
+        popular_game = max(dic, key=dic.get)
+        
+        context = {'name': popular_game.name, 'description': popular_game.description}
+    else:
+        context = {'name': 'No games yet', 'description': ''}
+
+    return render(request, 'gameLibrary/home.html', context)
 
 
 # the buygame feature will be implemented here
@@ -52,7 +67,7 @@ def playGame(request, game_id):
             game = users_game.game
             context = {'game': game, 'owned_game_objects': owned_game_objects, 'users_game': users_game,}
         except Game.DoesNotExist:
-            raise Http404("Game does not exist")
+            raise HttpResponse(status=404)
     elif request.method == 'POST':
         if 'score' in request.POST:
 
@@ -63,7 +78,7 @@ def playGame(request, game_id):
                     obj.save()
                 return JsonResponse({'status': 'Success', 'msg': ' highscore save successfully'})
             except:
-                raise Http404("Game not updated")
+                raise HttpResponse(status=404)
 
         elif 'state' in request.POST:
 
@@ -73,7 +88,7 @@ def playGame(request, game_id):
                 obj.save()
                 return JsonResponse({'status':'Success', 'msg': 'progress save successfully'})
             except:
-                raise Http404("GameState not saved")
+                raise HttpResponse(status=404)
 
         elif 'getProgress' in request.POST:
 
@@ -83,10 +98,10 @@ def playGame(request, game_id):
                 return HttpResponse(progress)
 
             except:
-                raise Http404("Progress not found")
+                raise HttpResponse(status=404)
 
     else:
-        return Http404("Request not found")
+        return HttpResponse(status=404)
 
     return render(request, 'gameLibrary/playGame.html', context)
 

@@ -11,17 +11,18 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <title>Game X Changers</title>
+    <link href="https://fonts.googleapis.com/css?family=Nunito|Saira+Semi+Condensed&display=swap" rel="stylesheet">
 </head>
 
 <body>
     <div class="content">
-        <div class="content-inside" style="padding-bottom: 50px;">
+        <div class="content-inside">
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container">
                     <a class="navbar-brand" href="/">
                         <img src="{% static 'gameLibrary/images/x.jpg' %}" width="50px" height="50px"
                             style="margin-right: 10px;">
-                        <b>Game X Changers</b></a>
+                        <b id="title">Game X Changers</b></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -76,16 +77,18 @@
             {% endif %}
 
             <div class="container">
-                <div class="col-md-6 m-auto">
+                <div class="col-md-6 m-auto" style="padding-top: 30px;">
                     {% block content %}{% endblock %}
                 </div>
             </div>
+            <div class="push" style="height: 50px;"></div>
         </div>
         <!-- Footer -->
-        <footer class="page-footer font-small blue" style="background-color: lightblue; height: 50px; margin-top: -50px;">
+        <footer class="page-footer font-small blue" id="footer">
 
             <div class="footer-copyright text-center py-3">
                 <p>© 2020 Copyright: Game X Changers</p>
+                <a href="https://www.iubenda.com/privacy-policy/73623505" class="iubenda-white iubenda-embed" title="Privacy Policy ">Privacy Policy</a><script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
             </div>
 
         </footer>
@@ -102,4 +105,23 @@
         crossorigin="anonymous"></script>
 </body>
 
+<style>
+    html, body, .content {
+        height: 100%;
+        font-family: 'Nunito', sans-serif;
+    }
+
+    #title {
+        font-family: 'Saira Semi Condensed', sans-serif;
+    }
+    .content-inside {
+        margin-bottom: 50px; 
+        min-height: 100%
+    }
+    #footer {
+        background-color: lightblue; 
+        height: 50px; 
+        margin-top: -50px;
+    }
+</style>
 </html>
