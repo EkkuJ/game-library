@@ -12,11 +12,5 @@ urlpatterns = [
     path('', include('gameLibrary.urls')),
     path('authentication/', include('authentication.urls')),
     path('myapi/', include('myapi.urls')),
-]
-
-
-
-
-
-    path('social-auth/', include('social_django.urls', namespace="social"))
+    path('social-auth/', include('social_django.urls', namespace="social")),
 ]

@@ -17,9 +17,7 @@ class GameApiView(APIView):
     permission_classes = (IsAuthenticated,)
     
     def get(self, request):
-        #serializer_class = GameSerializer
         #give people only the data they have access to
-        print(request.user)
         all_games = Game.objects.all().filter(developer=request.user)
         result=[]
         for x in all_games:
@@ -36,9 +34,6 @@ class GameApiView(APIView):
                 dict['highscore'] = str(y.highscore)
                 dict['progress'] = str(y.progress)
                 result.append(dict)        
-        #content = mapped
-
-        
         return Response(result)
 
 
