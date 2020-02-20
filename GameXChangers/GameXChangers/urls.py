@@ -11,6 +11,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('gameLibrary.urls')),
     path('authentication/', include('authentication.urls')),
-    path('hello/', views.HelloView.as_view(), name='hello'),
-    path('api-token-auth/', obtain_auth_token, name='api_token_auth'),
+    path('api/token/', jwt_views.TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', jwt_views.TokenRefreshView.as_view(), name='token_refresh'),
 ]
+
+
+
+
+
