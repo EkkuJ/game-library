@@ -8,10 +8,14 @@
     <h5 class="card-title">{{ game.name }}</h5>
     <p class="card-text">{{ game.description }}</p>
     <p class="card-text">{{ game.price }}</p>
-    <a href="{% url 'gameLibrary:playGame' game.id %}" class="btn btn-primary">Play Game</a>
-    <a href="{% url 'gameLibrary:removeGame' game.id %}" class="btn btn-primary">Remove Game</a>
-    <a href="{% url 'gameLibrary:modifyGame' game.id %}" class="btn btn-primary">Modify Game</a>
-    <a href="{% url 'gameLibrary:gameStats' game.id %}" class="btn btn-primary">Game Statistics</a>
+    <div>
+        <a style ="margin-bottom: 10px; margin-right: 10px;" href="{% url 'gameLibrary:playGame' game.id %}" class="btn btn-primary">Play Game</a>
+        <a style ="margin-bottom: 10px; margin-right: 10px;" href="{% url 'gameLibrary:removeGame' game.id %}" class="btn btn-primary">Remove Game</a>
+    </div>
+    <div>
+        <a style ="margin-bottom: 10px; margin-right: 10px;" href="{% url 'gameLibrary:modifyGame' game.id %}" class="btn btn-primary">Modify Game</a>
+        <a style ="margin-bottom: 10px; margin-right: 10px;" href="{% url 'gameLibrary:gameStats' game.id %}" class="btn btn-primary">Game Statistics</a>
+    </div>
 </div> 
 {% endfor %}
 {% else %}
