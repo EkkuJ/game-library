@@ -152,13 +152,15 @@ def addGame(request):
         context = {}
         return render(request, 'gameLibrary/addGame.html', context)
 
+
+# This view only to give information to developers about how to use the api feature.
 @login_required
 @user_passes_test(is_developer, login_url='/gameLibrary')
 def api(request):
 
     return render(request, 'gameLibrary/api.html')
 
-
+# View to show all games that the user (must be developer) has added.
 @login_required
 @user_passes_test(is_developer, login_url='/gameLibrary')
 def developedGames(request):
@@ -167,6 +169,7 @@ def developedGames(request):
     return render(request, 'gameLibrary/developedGames.html', context)
 
 
+# This is where the game will be deleted.
 @login_required
 @user_passes_test(is_developer, login_url='/gameLibrary')
 def removeGame(request, game_id):
@@ -238,13 +241,19 @@ def modifyGame(request, game_id):
         messages.warning(request, 'Failed to modify the game' )
         return render(request, 'gameLibrary/modifyGame.html', context)
 
+# This view is per game all the stats that a developer can see about them
 @login_required
 @user_passes_test(is_developer, login_url='/gameLibrary')
 def gameStats(request, game_id):
     try:
         # First get the game
         game= Game.objects.get(id=game_id)
-        listOfGames = list(filter(lambda x: x.game.id == game_id, OwnedGame.objects.all()))
+        # if the game is not user's
+        if not game.developer == request.user:
+            raise Exception()
+        listOfGamesAll = list(filter(lambda x: x.game.id == game_id, OwnedGame.objects.all()))
+        # We don't need to see ourselves on the list, do we:)
+        listOfGames = list(filter(lambda x: x.player != request.user, OwnedGame.objects.all()))
         # The amount how many people have bought this game:
         amount = len(listOfGames)
         # The list of all timestamp-player pairs
@@ -289,6 +298,7 @@ def buyGame(request, game_id):
         messages.warning(request, 'Failed to buy the game')
     return render(request, 'gameLibrary/buyGame.html', context)
 
+# If payment successful, directs here and here will be made all new instances of Game and OwnedGame
 @login_required
 def success(request):
 
@@ -298,7 +308,7 @@ def success(request):
     if isValid:
         # first get the pid from the request
         pid = request.GET.get("pid")
-        # then get player and game ids from the pid
+        # then get player and game ids from the pid (pid contains information of them)
         divider1 = pid.find(':')
         divider2 = pid.find('/')
         player_id = pid[0:divider1]
@@ -317,7 +327,7 @@ def success(request):
     else:
         return render(request, 'gameLibrary/error.html')
 
-
+# View for errors
 @login_required
 def error(request):
     return render(request, 'gameLibrary/error.html')
