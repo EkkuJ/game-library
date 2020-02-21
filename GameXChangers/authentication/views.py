@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth import login, logout as auth_logout, authenticate
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import Group
@@ -83,7 +84,8 @@ def group_choice(request):
         form = GroupChoiceForm()
     return render(request, 'registration/group_choice.html', {'form': form})
 
-
+@login_required
 def logout(request):
     auth_logout(request)
-    return render(request, 'registration/logout.html')
+    messages.success(request, ('You were succesfully logged out.'))
+    return redirect('../login')
