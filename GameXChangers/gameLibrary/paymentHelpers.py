@@ -5,7 +5,7 @@ import random
 sid = settings.PAYMENT_SID
 secret = settings.PAYMENT_SECRET
 
-
+# Function to get the Checksum to be sent to the service
 def getChecksum(pid, sid, amount):
     checksumstr = f"pid={pid:s}&sid={sid:s}&amount={amount:.2f}&token={secret:s}"
     checksum = md5(checksumstr.encode('utf-8')).hexdigest()
@@ -27,7 +27,7 @@ def getPid(player, game):
 def getSid():
     return sid
 
-
+# checking the checksum coming from the payment service
 def getIncomingChecksum(pid, ref, result):
     checksumstr = f"pid={pid:s}&ref={ref:s}&result={result:s}&token={secret:s}"
     checksum = md5(checksumstr.encode('utf-8')).hexdigest()
