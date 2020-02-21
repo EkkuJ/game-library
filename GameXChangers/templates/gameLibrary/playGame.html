@@ -15,11 +15,11 @@
                 <h3 class="mt-0">Highscores</h3>
                 {% if owned_game_objects %}
                 {% for owned_game in owned_game_objects %}
-                <span class="card-body">
+                <div class="card-body">
                     <h6>{{ owned_game.player.username }}
                         <span class="badge badge-secondary">{{ owned_game.highscore }}
                         </span></h6>
-                </span>
+                </div>
                 {% endfor %}
                 {% else %}
                 <p>No scores yet</p>
