@@ -16,10 +16,10 @@
             <input type="hidden" name="success_url" value="https://game-x-changers.herokuapp.com/success">
             <input type="hidden" name="cancel_url" value="https://game-x-changers.herokuapp.com/browseGames">
             <input type="hidden" name="error_url" value="https://game-x-changers.herokuapp.com/error">
-            <input type="hidden" name="checksum"value={{checksum}}>
+            <input type="hidden" name="checksum" value={{checksum}}>
             Amount to be paid <p>{{game.price}}</p>
             <input type="submit" value="Pay">
-          </form>
+        </form>
         {% else %}
         <p>You must log in in order to buy games</p>
         {% endif %}
