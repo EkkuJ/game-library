@@ -2,9 +2,9 @@
 
 {% block content %}
 <h2 class="text-center mb-3">All Games</h2>
-<form class="search" method="GET" action="" >
-    <input class="search" type="search" name="search"> 
-    <button class="search" type="submit"> Search </button>
+<form class="search" method="GET">
+    <input class="search" type="search" name="search">
+    <button class="search" type="submit">Search</button>
 </form>
 {% if game_list %}
 {% for game in game_list %}
@@ -13,7 +13,7 @@
     <p class="card-text">{{ game.description }}</p>
     <p class="card-text">{{ game.price }}</p>
     <a href="{% url 'gameLibrary:buyGame' game.id %}" class="btn btn-primary">Buy Game</a>
-</div> 
+</div>
 {% endfor %}
 {% else %}
 <p>No games available</p>

@@ -6,12 +6,38 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+    <title>Game X Changers</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <title>Game X Changers</title>
-    <link href="https://fonts.googleapis.com/css?family=Nunito|Saira+Semi+Condensed&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Saira+Semi+Condensed&display=swap" rel="stylesheet">
+
+    <!-- Style -->
+    <style>
+        html,
+        body,
+        .content {
+            height: 100%;
+            font-family: 'Nunito', sans-serif;
+        }
+
+        #title {
+            font-family: 'Saira Semi Condensed', sans-serif;
+        }
+
+        .content-inside {
+            margin-bottom: 0px;
+            min-height: 100%
+        }
+
+        #footer {
+            background-color: lightblue;
+            height: 50px;
+            margin-top: -66px;
+            margin-bottom: 0px;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,7 +46,7 @@
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container">
                     <a class="navbar-brand" href="/">
-                        <img src="{% static 'gameLibrary/images/x.jpg' %}" width="50px" height="50px"
+                        <img src="{% static 'gameLibrary/images/x.jpg' %}" alt="logo" width="50" height="50"
                             style="margin-right: 10px;">
                         <b id="title">Game X Changers</b></a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
@@ -74,7 +100,7 @@
             {% if messages %}
             <ul class="messages">
                 {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
                     {% endfor %}
             </ul>
             {% endif %}
@@ -90,8 +116,9 @@
         <footer class="page-footer font-small blue" id="footer">
 
             <div class="footer-copyright text-center py-3">
-                <p>© 2020 Copyright: Game X Changers</p>
-                <a href="https://www.iubenda.com/privacy-policy/73623505" class="iubenda-white iubenda-embed" title="Privacy Policy ">Privacy Policy</a><script type="text/javascript">(function (w,d) {var loader = function () {var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src="https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s,tag);}; if(w.addEventListener){w.addEventListener("load", loader, false);}else if(w.attachEvent){w.attachEvent("onload", loader);}else{w.onload = loader;}})(window, document);</script>
+                <span>© 2020 Copyright: Game X Changers<script type="text/javascript">(function (w, d) { var loader = function () { var s = d.createElement("script"), tag = d.getElementsByTagName("script")[0]; s.src = "https://cdn.iubenda.com/iubenda.js"; tag.parentNode.insertBefore(s, tag); }; if (w.addEventListener) { w.addEventListener("load", loader, false); } else if (w.attachEvent) { w.attachEvent("onload", loader); } else { w.onload = loader; } })(window, document);</script>
+                    <a href="https://www.iubenda.com/privacy-policy/73623505" class="iubenda-white iubenda-embed"
+                        title="Privacy Policy ">Privacy Policy</a></span>
             </div>
 
         </footer>
@@ -108,23 +135,5 @@
         crossorigin="anonymous"></script>
 </body>
 
-<style>
-    html, body, .content {
-        height: 100%;
-        font-family: 'Nunito', sans-serif;
-    }
 
-    #title {
-        font-family: 'Saira Semi Condensed', sans-serif;
-    }
-    .content-inside {
-        margin-bottom: 50px; 
-        min-height: 100%
-    }
-    #footer {
-        background-color: lightblue; 
-        height: 50px; 
-        margin-top: -50px;
-    }
-</style>
 </html>
