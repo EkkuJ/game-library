@@ -43,7 +43,14 @@ def browseGames(request):
     if search:
         nameResult = Game.objects.filter(name__contains=search)
         descResult = Game.objects.filter(description__contains=search)
-        game_list = list(chain(nameResult, descResult))
+        game_list = []
+        # no duplicates please
+        for x in nameResult:
+            if x not in game_list:
+                game_list.append(x)
+        for y in descResult:
+            if y not in descResult:
+                game_list.append(y)
     
     owned_game_objects = list(filter(lambda x: x.player == request.user, OwnedGame.objects.all()))
     owned_game_list = list(map(lambda x: x.game, owned_game_objects))
