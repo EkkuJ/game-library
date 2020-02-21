@@ -4,15 +4,27 @@
 <div>
     <form method="POST" action="{% url 'login' %}">
         {% csrf_token %}
-        {{form.username.label_tag}}
-        {{form.username}}
+        <p>
+            {{form.username.label_tag}}
+            {{form.username}}
+        </p>
+        <p>
+            {{form.password.label_tag}}
+            {{form.password}}
+        </p>
+        
 
-        {{form.password.label_tag}}
-        {{form.password}}
+        {% if form.non_field_errors %}
+        <ul class='form-errors'>
+            {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
 
-        {{ form.errors }}
-
-        <input class="btn btn-outline-info" type="submit" value="Login">
+        <p>
+            <input class="btn btn-outline-info" type="submit" value="Login">
+        </p>
     </form>
     <div style="margin: 20px;">
         <h4>Or</h4>
