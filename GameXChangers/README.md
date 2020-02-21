@@ -70,7 +70,7 @@ The project is divided into two applications: The authentication and the game li
 
 ### Models’ relation structure
 
-![alt text](modelsRelation.png)	
+![alt text](gameLibrary/static/gameLibrary/modelsRelation.png)	
 
 ## Working habits and timetable
 
