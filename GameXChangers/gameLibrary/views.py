@@ -152,12 +152,11 @@ def addGame(request):
         context = {}
         return render(request, 'gameLibrary/addGame.html', context)
 
+@login_required
+@user_passes_test(is_developer, login_url='/gameLibrary')
 def api(request):
 
-    all_games = (Game.objects.all())
-    mapped = json.dumps(list(map(lambda g: g.name, all_games)))
-
-    return render(request, 'gameLibrary/api.html', {'mapped': mapped})
+    return render(request, 'gameLibrary/api.html')
 
 
 @login_required
