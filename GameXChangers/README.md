@@ -73,11 +73,10 @@ If you are logged in as a developer, you have more options in the navigation bar
 https://game-x-changers.herokuapp.com/
  
 ## Accounts:
- 
-Role            Username            Password
-Developer       devaaja             MyLittlePony1996
-Player          player              MyBigHorse1984
-Facebook    arttugeneral@gmail.com  WsdUserTest2020
+In the form [Role, Username, Password]<br><br> 
+[Developer, devaaja, MyLittlePony1996]<br>
+[Player, player, MyBigHorse1984]<br>
+[Facebook, arttugeneral@gmail.com, WsdUserTest2020]<br>
 
 
 ## Own game
