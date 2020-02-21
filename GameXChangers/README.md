@@ -78,19 +78,11 @@ Role            Username            Password
 Developer       devaaja             MyLittlePony1996
 Player          player              MyBigHorse1984
 Facebook    arttugeneral@gmail.com  WsdUserTest2020
+
+
+## Own game
+https://version.aalto.fi/gitlab/tervom3/wsdproject-owngame
  
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
