@@ -9,7 +9,7 @@
     <p class="card-text">{{ game.game.description }}</p>
     <p class="card-text">{{ game.game.price }}</p>
     <a href="{% url 'gameLibrary:playGame' game.game.id %}" class="btn btn-primary">Play Game</a>
-</div> 
+</div>
 {% endfor %}
 {% else %}
 <p>No games available</p>
