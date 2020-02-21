@@ -253,7 +253,7 @@ def gameStats(request, game_id):
             raise Exception()
         listOfGamesAll = list(filter(lambda x: x.game.id == game_id, OwnedGame.objects.all()))
         # We don't need to see ourselves on the list, do we:)
-        listOfGames = list(filter(lambda x: x.player != request.user, OwnedGame.objects.all()))
+        listOfGames = list(filter(lambda x: x.player != request.user, listOfGamesAll))
         # The amount how many people have bought this game:
         amount = len(listOfGames)
         # The list of all timestamp-player pairs
