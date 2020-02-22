@@ -7,87 +7,9 @@ Tervo, Miikka   654058  miikka.tervo@aalto.fi
 Jokinen, Ekku	666091	ekku.jokinen@aalto.fi  
 Määttä, Arttu	667155	arttu.maatta@aalto.fi
 
-## Final Submission
-
-## Implemented features and work distribution
-
-## Authentication (Ekku, 200/200 points):
-We did Login, logout and register (both as player or developer). Email validation through Django console backend.
-
-## Basic player functionalities (Arttu, Miikka, 300/300 points): 
-Buy games, payment is handled by the course’s mockup payment service: https://tilkkutakki.cs.aalto.fi/payments/
-“Giving” the game to a player is done using the PID coming from payment service. So people can’t get other people’s games. 
-Play games. See also game/service interaction
-Security restrictions, e.g. player is only allowed to play the games they’ve purchased
-Players find games through a search functionality that searches from game names and descriptions. Also most played game is displayed on front page.
-
-## Basic developer functionalities (Arttu 200/200 points):
-Add a game (URL) and set price for that game and manage that game (remove, modify) through a my Games view.
-Basic game inventory and sales statistics (how many of the developers' games have been bought and when)
-Security restrictions, e.g. developers are only allowed to modify/add/etc. their own games, developer can only add games to their own inventory, etc.
-
-## Game/service interaction (Miikka 200/200 points):
-When player has finished playing a game (or presses submit score), the game sends a postMessage to the parent window containing the current score. This score is recorded to the player's scores and to the global high score list for that game. 
-
-## Quality of Work (100/100 points):
-Structure is good.
-Using django well.
-Testing is ok. 
-Commits and comments are ok.
-
-## Non-functional requirements ( 200/200 points):
-Project plan was well done, even though there were some faults in the content. Planning was done well though.
-Overall documentation, demo, teamwork, and project management as seen from the history of your GitLab project (and possible other sources that you submit in your final report)
-
-## Save/load and resolution feature (Miikka 100/100 points):
-The service supports saving and loading for games with the simple message protocol described in Game Developer Information.
-
-## 3rd party login (Ekku 100/100 points)
-Allow facebook login to the service for both developers and players.
-## RESTful API (Arttu 100/100 points)
-Designed and Implemented an API from which developers can get data of their developed games. The data concerns usage of those games and is in JSON format. Developers can then use this data in their own systems. Authentication is implemented with JSON Web Token.
-## Own game (Miikka 100/100 points)
-Developed a simple game in JavaScript that communicates with the service (at least high score, save, load)
-The idea of the game is to click buttons on the computer against the clock. On every round the amount of buttons to click to pass the level increases.
-## Mobile Friendly (Ekku 50/50 points)
-Attention was paid to usability on both traditional computers and mobile devices (smart phones/tablets)
-It works with devices with varying screen width and is usable with touch based devices.
-CSS Bootstrap was used.
-## Social media sharing (Miikka 50/50 points)
-Enable sharing games in some social media site (Facebook, Twitter, Google+, etc.) using OpenGraph / Twitter cards
-Focus on the metadata, so that the shared game is “advertised” well (e.g. instead of just containing a link to the service, the shared items should have a sensible description and an image)
-Note that you usually need to see something about the games without login to be able to post just a URL as bots do not log in.
-
-
-
-## Successes, problems:
-We succeeded in the amount of features implemented. We decided to implement all of the features and that we did. We were also successful in giving the user an easy-to-use application that functions well. 
-Our biggest problems were in finishing the project. It also made us learn that as long as there are a few little things left to do, there is still much to do. Another big problem was the Heroku deployment. Also making the project plan was a little bit difficult concerning the technology, because some of it was new to us.
- 
-## Instructions on using the Application:
-You can use the application by entering the website given below. There you can make new accounts, log in with Facebook or log in with an existing account (usernames and passwords below). 
-After you have logged in, you will see the front page where the most popular game is shown. By usign the navigation bar, you are able to navigate to browse all the games there are or the games that you have bought. 
-If you are logged in as a developer, you have more options in the navigation bar. You can add a game, see your developed games and you have one site to see instructions how to access the developer API of the application.
-
 ## Link to Heroku:
 https://game-x-changers.herokuapp.com/
  
-## Accounts:
-In the form [Role, Username, Password]<br><br> 
-[Developer, devaaja, MyLittlePony1996]<br>
-[Player, player, MyBigHorse1984]<br>
-[Facebook, arttugeneral@gmail.com, WsdUserTest2020]<br>
-
-
-## Own game
-https://version.aalto.fi/gitlab/tervom3/wsdproject-owngame
- 
-
-
-
-
-
-
 ## Project Plan:
 
 ## Overview
@@ -149,11 +71,11 @@ The project is divided into two applications: The authentication and the game li
 
 ### Structure of the product
 
-![alt text](gameLibrary/static/gameLibrary/productStructure.png)
+![Graph](GameXChangers/gameLibrary/static/gameLibrary/productStructure.png)
 
 ### Models’ relation structure
 
-![alt text](gameLibrary/static/gameLibrary/modelsRelation.png)	
+![Graph](GameXChangers/gameLibrary/static/gameLibrary/modelsRelation.png)	
 
 ## Working habits and timetable
 
