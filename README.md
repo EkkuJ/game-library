@@ -9,6 +9,15 @@ Määttä, Arttu	667155	arttu.maatta@aalto.fi
 
 ## Link to Heroku:
 https://game-x-changers.herokuapp.com/
+
+## Credentials
+
+In order to log in to the library, you can
+
+1. Authenticate with your own Facebook profile,
+2. Log in as a player (username: player, password: Python123!) or
+3. Log in as a developer (username: developer, password: Python123!).
+
  
 ## Project Plan:
 
